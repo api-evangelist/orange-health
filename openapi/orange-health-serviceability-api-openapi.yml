@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  title: Orange Health Partner Orders Serviceability API
+  version: v1
+  description: Partner API for Orange Health Labs — a home-collection diagnostics lab serving Indian metros. Partners check serviceability, create home-collection, lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to orders, and pull structured test results. Order lifecycle transitions are delivered as HMAC-signed webhooks. Derived from the published Apiary API Blueprint (Partner API Public Order Flow).
+  contact:
+    name: Orange Health Integrations
+    email: integrations@orangehealth.in
+    url: https://orangehealth.docs.apiary.io/
+  x-apievangelist:
+    method: derived
+    source: openapi/orange-health-partner-api.apib
+    generated: '2026-07-20'
+servers:
+- url: https://partner-api.orangehealth.in
+  description: Production
+- url: https://sandbox-partner-api.orangehealth.dev
+  description: Sandbox / testing
+security:
+- ApiKeyAuth: []
+tags:
+- name: Serviceability
+  description: Check whether a location is serviceable and fetch available slots.
+paths:
+  /v1/partner/serviceability:
+    get:
+      operationId: fetchServiceability
+      tags:
+      - Serviceability
+      summary: Fetch serviceability
+      description: Check whether a pickup location is serviceable and, when latitude and longitude are supplied, return the available collection slots. When only a pincode is supplied, returns serviceability without slots.
+      parameters:
+      - name: latitude
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Latitude of pickup location. 13.0240 for sandbox testing.
+      - name: longitude
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Longitude of pickup location. 77.6433 for sandbox testing.
+      - name: request_date
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+        description: Pickup date (YYYY-MM-DD), must be >= today.
+      - name: pincode
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pincode when lat/long unavailable. 560043 for sandbox testing.
+      responses:
+        '200':
+          description: Location serviceable (with or without slots).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceabilityResponse'
+        '400':
+          description: Location unserviceable or invalid/missing parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusError'
+        '404':
+          description: Unserviceable pincode region.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusError'
+components:
+  schemas:
+    ServiceabilityResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          examples:
+          - Location is serviceable
+        slots:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              slot_datetime:
+                type: string
+                format: date-time
+              is_morning_slot:
+                type: boolean
+              is_afternoon_slot:
+                type: boolean
+              is_evening_slot:
+                type: boolean
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api_key
+      description: 'Partner API key sent in the api_key header. Public sandbox keys: partner-alwaysPartner, partner-alwaysOH, partner-decidedAtOrderLevel. Production keys via integrations@orangehealth.in.'

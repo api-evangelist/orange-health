@@ -1,0 +1,376 @@
+openapi: 3.1.0
+info:
+  title: Orange Health Partner Orders API
+  version: v1
+  description: Partner API for Orange Health Labs — a home-collection diagnostics lab serving Indian metros. Partners check serviceability, create home-collection, lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to orders, and pull structured test results. Order lifecycle transitions are delivered as HMAC-signed webhooks. Derived from the published Apiary API Blueprint (Partner API Public Order Flow).
+  contact:
+    name: Orange Health Integrations
+    email: integrations@orangehealth.in
+    url: https://orangehealth.docs.apiary.io/
+  x-apievangelist:
+    method: derived
+    source: openapi/orange-health-partner-api.apib
+    generated: '2026-07-20'
+servers:
+- url: https://partner-api.orangehealth.in
+  description: Production
+- url: https://sandbox-partner-api.orangehealth.dev
+  description: Sandbox / testing
+security:
+- ApiKeyAuth: []
+tags:
+- name: Orders
+  description: Create and manage diagnostic collection orders.
+paths:
+  /v1/partner/order:
+    post:
+      operationId: createOrder
+      tags:
+      - Orders
+      summary: Create order (home collection or lab drop-off)
+      description: Create a diagnostic order. Home-collection orders supply address, location and slot_datetime; lab drop-off orders supply in_clinic_request=true.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Lab drop-off order created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+        '202':
+          description: Home-collection order scheduled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+        '400':
+          description: Invalid parameters or unserviceable location.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusError'
+        '425':
+          description: Duplicate request within one minute (already accepted).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusError'
+  /v1/partner/camp/{campID}/order:
+    post:
+      operationId: createCampOrder
+      tags:
+      - Orders
+      summary: Create camp order
+      description: Create an order under a specific health-camp identifier.
+      parameters:
+      - name: campID
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Unique camp identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampOrderRequest'
+      responses:
+        '200':
+          description: Camp order scheduled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+        '400':
+          description: Invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusError'
+  /v1/partner/{requestID}/add-on-order:
+    post:
+      operationId: addOnOrder
+      tags:
+      - Orders
+      summary: Add-on to an existing order
+      description: Add additional tests or packages for a patient to an existing request.
+      parameters:
+      - name: requestID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddOnOrderRequest'
+      responses:
+        '200':
+          description: Add-on order created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+  /v1/partner/{requestID}/reschedule:
+    patch:
+      operationId: rescheduleOrder
+      tags:
+      - Orders
+      summary: Reschedule an order
+      description: Reschedule before the phlebotomist starts the task (before a tracking link is available).
+      parameters:
+      - name: requestID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RescheduleRequest'
+      responses:
+        '200':
+          description: Reschedule accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    examples:
+                    - ok
+  /v1/partner/{requestID}/cancel:
+    patch:
+      operationId: cancelOrder
+      tags:
+      - Orders
+      summary: Cancel an order
+      description: Request cancellation before the phlebotomist starts the task. Cancellation is asynchronous — confirm via the order.cancelled webhook or Get Order Status.
+      parameters:
+      - name: requestID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelRequest'
+      responses:
+        '200':
+          description: Cancellation request acknowledged (not guaranteed).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusError'
+components:
+  schemas:
+    CreateOrderRequest:
+      type: object
+      required:
+      - primary_patient_name
+      - primary_patient_number
+      - patient_details
+      properties:
+        address:
+          type: string
+        in_clinic_request:
+          type: boolean
+          description: true for lab drop-off orders.
+        location:
+          type: object
+          properties:
+            latitude:
+              type: string
+            longitude:
+              type: string
+        slot_datetime:
+          type: string
+          format: date-time
+        payment_type:
+          type: string
+          examples:
+          - paid_by_group
+        primary_patient_name:
+          type: string
+        primary_patient_number:
+          type: string
+        patient_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatientDetail'
+    CancelRequest:
+      type: object
+      properties:
+        cancellationExplanation:
+          type: string
+        cancellationReason:
+          type: string
+    CreateOrderResponse:
+      type: object
+      properties:
+        request_id:
+          type: string
+        oms_request_id:
+          type: string
+        token:
+          type: string
+          format: uuid
+        status:
+          type: string
+          examples:
+          - Scheduled
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRef'
+    OrderRef:
+      type: object
+      properties:
+        id:
+          type: integer
+        partnerReferenceId:
+          type: string
+    PatientDetail:
+      type: object
+      properties:
+        partner_reference_id:
+          type: string
+        patient_name:
+          type: string
+        patient_phone:
+          type: string
+        age:
+          type: string
+        gender:
+          type: string
+          enum:
+          - Male
+          - Female
+          - Other
+        tests:
+          type: array
+          items:
+            type: object
+            properties:
+              test_id:
+                type: string
+        packages:
+          type: array
+          items:
+            type: object
+            properties:
+              package_id:
+                type: string
+    AddOnOrderRequest:
+      type: object
+      properties:
+        partner_reference_id:
+          type: string
+        patient_name:
+          type: string
+        age:
+          type: string
+        gender:
+          type: string
+        patient_phone:
+          type: string
+        partner_notes:
+          type: string
+        tests:
+          type: array
+          items:
+            type: object
+            properties:
+              test_id:
+                type: string
+        packages:
+          type: array
+          items:
+            type: object
+            properties:
+              package_id:
+                type: string
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
+    CampOrderRequest:
+      type: object
+      properties:
+        customer_name:
+          type: string
+        customer_number:
+          type: string
+        partner_reference_id:
+          type: string
+        patient_name:
+          type: string
+        age:
+          type: string
+        gender:
+          type: string
+        tests:
+          type: array
+          items:
+            type: object
+            properties:
+              test_id:
+                type: string
+        packages:
+          type: array
+          items:
+            type: object
+            properties:
+              package_id:
+                type: string
+    RescheduleRequest:
+      type: object
+      required:
+      - requested_slot_time
+      properties:
+        requested_slot_time:
+          type: string
+          format: date-time
+        reschedule_reason:
+          type: string
+        reschedule_explanation:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api_key
+      description: 'Partner API key sent in the api_key header. Public sandbox keys: partner-alwaysPartner, partner-alwaysOH, partner-decidedAtOrderLevel. Production keys via integrations@orangehealth.in.'

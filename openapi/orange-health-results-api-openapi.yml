@@ -1,0 +1,216 @@
+openapi: 3.1.0
+info:
+  title: Orange Health Partner Orders Results API
+  version: v1
+  description: Partner API for Orange Health Labs — a home-collection diagnostics lab serving Indian metros. Partners check serviceability, create home-collection, lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to orders, and pull structured test results. Order lifecycle transitions are delivered as HMAC-signed webhooks. Derived from the published Apiary API Blueprint (Partner API Public Order Flow).
+  contact:
+    name: Orange Health Integrations
+    email: integrations@orangehealth.in
+    url: https://orangehealth.docs.apiary.io/
+  x-apievangelist:
+    method: derived
+    source: openapi/orange-health-partner-api.apib
+    generated: '2026-07-20'
+servers:
+- url: https://partner-api.orangehealth.in
+  description: Production
+- url: https://sandbox-partner-api.orangehealth.dev
+  description: Sandbox / testing
+security:
+- ApiKeyAuth: []
+tags:
+- name: Results
+  description: Retrieve order status and structured test results.
+paths:
+  /v1/partner/order-details/{requestID}:
+    get:
+      operationId: getOrderStatus
+      tags:
+      - Results
+      summary: Get order status
+      description: Retrieve the current status and details of an order.
+      parameters:
+      - name: requestID
+        in: path
+        required: true
+        schema:
+          type: string
+        description: request_id from the create-order response.
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+        description: token from the create-order response.
+      responses:
+        '200':
+          description: Order details retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetailsResponse'
+        '400':
+          description: Invalid request ID or token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusError'
+  /v1/partner/test-results:
+    get:
+      operationId: getTestResults
+      tags:
+      - Results
+      summary: Get test results
+      description: Retrieve structured investigation-level test results by date range (max 7 days), request_id(s), patient_id(s), or primary patient number.
+      parameters:
+      - name: creation_start_date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: creation_end_date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Max 7-day range from start.
+      - name: request_id
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: patient_id
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: primary_patient_number
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Test results retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResultsResponse'
+        '400':
+          description: Invalid date range (must be <= 7 days).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidDateRangeError'
+components:
+  schemas:
+    OrderDetailsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            status:
+              type: string
+              examples:
+              - completed
+            customer_details:
+              type: object
+              properties:
+                customer_name:
+                  type: string
+                customer_number:
+                  type: string
+            patient_information:
+              type: array
+              items:
+                type: object
+                properties:
+                  patientName:
+                    type: string
+                  reportURL:
+                    type: string
+                    format: uri
+                  tests:
+                    type: object
+            paymentMetadata:
+              type: array
+              items:
+                type: object
+                properties:
+                  paymentStatus:
+                    type: string
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
+    TestResultsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            orders:
+              type: array
+              items:
+                type: object
+                properties:
+                  order_id:
+                    type: integer
+                  request_id:
+                    type: string
+                  patient_name:
+                    type: string
+                  patient_age:
+                    type: integer
+                  patient_gender:
+                    type: string
+                  order_created_at:
+                    type: string
+                    format: date-time
+                  tests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        test_name:
+                          type: string
+                        investigation_name:
+                          type: string
+                        investigation_value:
+                          type: string
+                        investigation_value_unit:
+                          type: string
+                        investigation_is_abnormal:
+                          type: string
+                          description: A when abnormal.
+    InvalidDateRangeError:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      examples:
+      - error: Invalid date range
+        message: Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference.
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api_key
+      description: 'Partner API key sent in the api_key header. Public sandbox keys: partner-alwaysPartner, partner-alwaysOH, partner-decidedAtOrderLevel. Production keys via integrations@orangehealth.in.'
