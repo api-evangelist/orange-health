@@ -1,0 +1,46 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/orange-health-partner-openapi.yml
+format: status-envelope
+envelope:
+  description: >-
+    Errors are not RFC 9457 problem+json. Most endpoints return a single
+    human-readable "status" string; Get Test Results returns {error, message}.
+  fields:
+    - status   # primary human-readable error message on most endpoints
+    - error    # short code on test-results date-range errors
+    - message  # long-form explanation on test-results date-range errors
+problems:
+  - status: 400
+    title: Location not serviceable
+    example: '{"status": "Location is not serviceable"}'
+    source_operation: openapi/orange-health-partner-openapi.yml#fetchServiceability
+  - status: 400
+    title: Missing mandatory parameters
+    example: '{"status": "Parameters latitude, longitude, date is mandatory"}'
+    source_operation: openapi/orange-health-partner-openapi.yml#fetchServiceability
+  - status: 400
+    title: Past or invalid date
+    example: '{"status": "Past or invalid date provided"}'
+    source_operation: openapi/orange-health-partner-openapi.yml#fetchServiceability
+  - status: 404
+    title: Unserviceable pincode region
+    example: '{"status": "Unserviceable Pincode Region"}'
+    source_operation: openapi/orange-health-partner-openapi.yml#fetchServiceability
+  - status: 400
+    title: Order create failed (unserviceable / invalid slot / bad phone / missing patient or tests)
+    example: '{"status": "Location provided is unserviceable"}'
+    source_operation: openapi/orange-health-partner-openapi.yml#createOrder
+  - status: 425
+    title: Duplicate request within one minute
+    example: '{"status": "Request already accepted"}'
+    remediation: Wait at least one minute before retrying an identical order payload.
+    source_operation: openapi/orange-health-partner-openapi.yml#createOrder
+  - status: 400
+    title: Invalid request ID or token
+    example: '{"status": "Could not get request details, re-verify request ID and token provided"}'
+    source_operation: openapi/orange-health-partner-openapi.yml#getOrderStatus
+  - status: 400
+    title: Invalid date range on test results (max 7 days)
+    example: '{"error": "Invalid date range", "message": "Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference."}'
+    source_operation: openapi/orange-health-partner-openapi.yml#getTestResults

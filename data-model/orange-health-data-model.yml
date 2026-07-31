@@ -1,0 +1,33 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/orange-health-partner-openapi.yml
+entities:
+  - name: Request
+    description: Top-level booking created by one Create Order call; identified by request_id + token.
+    keys: [request_id, token]
+  - name: Order
+    description: Per-patient order under a Request; identified by numeric id and partner_reference_id.
+    keys: [id, partner_reference_id]
+  - name: Patient
+    description: Person being tested; carries name, phone, age, gender.
+  - name: Test
+    description: An orderable diagnostic test, referenced by test_id.
+    keys: [test_id]
+  - name: Package
+    description: A bundle of tests, referenced by package_id.
+    keys: [package_id]
+  - name: Investigation
+    description: An individual measured analyte in a completed test result (value, unit, abnormal flag).
+  - name: Task
+    description: The phlebotomist collection task tracked through the webhook lifecycle.
+  - name: Camp
+    description: A health-camp context under which camp orders are created.
+    keys: [campID]
+relationships:
+  - { from: Request, type: has_many, to: Order, via: orders }
+  - { from: Order, type: belongs_to, to: Patient, via: patient_details }
+  - { from: Order, type: has_many, to: Test, via: tests }
+  - { from: Order, type: has_many, to: Package, via: packages }
+  - { from: Test, type: has_many, to: Investigation, via: "tests[].investigations" }
+  - { from: Order, type: has_one, to: Task, via: tasks }
+  - { from: Camp, type: has_many, to: Order, via: "camp/{campID}/order" }

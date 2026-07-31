@@ -1,0 +1,19 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/orange-health-partner-openapi.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://orangehealth.docs.apiary.io/
+deprecation:
+  policy_url: null
+  sunset_header: false
+sla:
+  url: null
+status_page: null
+deprecated_operations: []
+notes: >-
+  No public deprecation policy, SLA document, or status page was found. The API
+  is single-version (v1) under the /v1/partner path. Cancellation is explicitly
+  asynchronous — confirm terminal state via the order.cancelled webhook or Get
+  Order Status rather than the cancel call's 200 acknowledgement.

@@ -1,0 +1,24 @@
+generated: '2026-07-20'
+method: searched
+source: https://orangehealth.docs.apiary.io/
+sandbox:
+  base_url: https://sandbox-partner-api.orangehealth.dev
+  production_base_url: https://partner-api.orangehealth.in
+test_api_keys:
+  - key: partner-alwaysPartner
+    meaning: Payment always collected by the partner
+  - key: partner-alwaysOH
+    meaning: Payment always collected by Orange Health
+  - key: partner-decidedAtOrderLevel
+    meaning: Payment decided per order (payment_type on each order)
+test_values:
+  latitude: '13.0240'
+  longitude: '77.6433'
+  pincode: '560043'
+  geofence_map: https://www.google.com/maps/d/viewer?mid=1kl_3fWKspPnnZZ_m2jJaguEvENgJTso
+webhook_secret_example: abcd   # documented value used in the published webhook examples
+notes: >-
+  Personalised sandbox and production API keys are issued by
+  integrations@orangehealth.in. Sandbox latitude/longitude must fall inside the
+  published testing geofence; request_date must be >= today. All values above are
+  published verbatim in the Apiary docs — not invented.

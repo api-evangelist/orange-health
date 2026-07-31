@@ -1,0 +1,9 @@
+generated: '2026-07-20'
+method: searched
+source: npm, PyPI registry search + Orange Health Apiary docs
+packages: []
+notes: >-
+  No first-party Orange Health Partner API client library was found on npm, PyPI,
+  Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist, or crates.io. Integration
+  is direct REST over the api_key header. (Unrelated "orange" packages exist but
+  are not Orange Health Labs SDKs.)

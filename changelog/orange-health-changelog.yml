@@ -1,0 +1,11 @@
+generated: '2026-07-20'
+method: searched
+source: https://orangehealth.docs.apiary.io/
+scheme: uri-path-version
+current: v1
+entries: []
+notes: >-
+  Orange Health publishes the Partner API as living Apiary documentation with no
+  dated changelog / release-notes surface found on probe. The v1 order flow,
+  add-on/reschedule/cancel operations, and the webhook event catalog are the
+  current documented surface.

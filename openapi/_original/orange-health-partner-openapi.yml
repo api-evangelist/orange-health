@@ -1,0 +1,459 @@
+openapi: 3.1.0
+info:
+  title: Orange Health Partner API
+  version: v1
+  description: >-
+    Partner API for Orange Health Labs — a home-collection diagnostics lab
+    serving Indian metros. Partners check serviceability, create home-collection,
+    lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to
+    orders, and pull structured test results. Order lifecycle transitions are
+    delivered as HMAC-signed webhooks. Derived from the published Apiary API
+    Blueprint (Partner API Public Order Flow).
+  contact:
+    name: Orange Health Integrations
+    email: integrations@orangehealth.in
+    url: https://orangehealth.docs.apiary.io/
+  x-apievangelist:
+    method: derived
+    source: openapi/orange-health-partner-api.apib
+    generated: '2026-07-20'
+servers:
+  - url: https://partner-api.orangehealth.in
+    description: Production
+  - url: https://sandbox-partner-api.orangehealth.dev
+    description: Sandbox / testing
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: Serviceability
+    description: Check whether a location is serviceable and fetch available slots.
+  - name: Orders
+    description: Create and manage diagnostic collection orders.
+  - name: Results
+    description: Retrieve order status and structured test results.
+paths:
+  /v1/partner/serviceability:
+    get:
+      operationId: fetchServiceability
+      tags: [Serviceability]
+      summary: Fetch serviceability
+      description: >-
+        Check whether a pickup location is serviceable and, when latitude and
+        longitude are supplied, return the available collection slots. When only
+        a pincode is supplied, returns serviceability without slots.
+      parameters:
+        - { name: latitude, in: query, required: false, schema: { type: number }, description: "Latitude of pickup location. 13.0240 for sandbox testing." }
+        - { name: longitude, in: query, required: false, schema: { type: number }, description: "Longitude of pickup location. 77.6433 for sandbox testing." }
+        - { name: request_date, in: query, required: true, schema: { type: string, format: date }, description: "Pickup date (YYYY-MM-DD), must be >= today." }
+        - { name: pincode, in: query, required: false, schema: { type: string }, description: "Pincode when lat/long unavailable. 560043 for sandbox testing." }
+      responses:
+        '200':
+          description: Location serviceable (with or without slots).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ServiceabilityResponse' }
+        '400':
+          description: Location unserviceable or invalid/missing parameters.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusError' }
+        '404':
+          description: Unserviceable pincode region.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusError' }
+  /v1/partner/order:
+    post:
+      operationId: createOrder
+      tags: [Orders]
+      summary: Create order (home collection or lab drop-off)
+      description: >-
+        Create a diagnostic order. Home-collection orders supply address, location
+        and slot_datetime; lab drop-off orders supply in_clinic_request=true.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateOrderRequest' }
+      responses:
+        '200':
+          description: Lab drop-off order created.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CreateOrderResponse' }
+        '202':
+          description: Home-collection order scheduled.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CreateOrderResponse' }
+        '400':
+          description: Invalid parameters or unserviceable location.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusError' }
+        '425':
+          description: Duplicate request within one minute (already accepted).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusError' }
+  /v1/partner/camp/{campID}/order:
+    post:
+      operationId: createCampOrder
+      tags: [Orders]
+      summary: Create camp order
+      description: Create an order under a specific health-camp identifier.
+      parameters:
+        - { name: campID, in: path, required: true, schema: { type: string }, description: Unique camp identifier. }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CampOrderRequest' }
+      responses:
+        '200':
+          description: Camp order scheduled.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CreateOrderResponse' }
+        '400':
+          description: Invalid parameters.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusError' }
+  /v1/partner/order-details/{requestID}:
+    get:
+      operationId: getOrderStatus
+      tags: [Results]
+      summary: Get order status
+      description: Retrieve the current status and details of an order.
+      parameters:
+        - { name: requestID, in: path, required: true, schema: { type: string }, description: request_id from the create-order response. }
+        - { name: token, in: query, required: true, schema: { type: string }, description: token from the create-order response. }
+      responses:
+        '200':
+          description: Order details retrieved.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/OrderDetailsResponse' }
+        '400':
+          description: Invalid request ID or token.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusError' }
+  /v1/partner/test-results:
+    get:
+      operationId: getTestResults
+      tags: [Results]
+      summary: Get test results
+      description: >-
+        Retrieve structured investigation-level test results by date range
+        (max 7 days), request_id(s), patient_id(s), or primary patient number.
+      parameters:
+        - { name: creation_start_date, in: query, required: false, schema: { type: string, format: date } }
+        - { name: creation_end_date, in: query, required: false, schema: { type: string, format: date }, description: "Max 7-day range from start." }
+        - { name: request_id, in: query, required: false, schema: { type: array, items: { type: string } } }
+        - { name: patient_id, in: query, required: false, schema: { type: array, items: { type: string } } }
+        - { name: primary_patient_number, in: query, required: false, schema: { type: string } }
+      responses:
+        '200':
+          description: Test results retrieved.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TestResultsResponse' }
+        '400':
+          description: Invalid date range (must be <= 7 days).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/InvalidDateRangeError' }
+  /v1/partner/{requestID}/add-on-order:
+    post:
+      operationId: addOnOrder
+      tags: [Orders]
+      summary: Add-on to an existing order
+      description: Add additional tests or packages for a patient to an existing request.
+      parameters:
+        - { name: requestID, in: path, required: true, schema: { type: string } }
+        - { name: token, in: query, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AddOnOrderRequest' }
+      responses:
+        '200':
+          description: Add-on order created.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CreateOrderResponse' }
+  /v1/partner/{requestID}/reschedule:
+    patch:
+      operationId: rescheduleOrder
+      tags: [Orders]
+      summary: Reschedule an order
+      description: Reschedule before the phlebotomist starts the task (before a tracking link is available).
+      parameters:
+        - { name: requestID, in: path, required: true, schema: { type: string } }
+        - { name: token, in: query, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RescheduleRequest' }
+      responses:
+        '200':
+          description: Reschedule accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result: { type: string, examples: [ok] }
+  /v1/partner/{requestID}/cancel:
+    patch:
+      operationId: cancelOrder
+      tags: [Orders]
+      summary: Cancel an order
+      description: >-
+        Request cancellation before the phlebotomist starts the task. Cancellation
+        is asynchronous — confirm via the order.cancelled webhook or Get Order Status.
+      parameters:
+        - { name: requestID, in: path, required: true, schema: { type: string } }
+        - { name: token, in: query, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CancelRequest' }
+      responses:
+        '200':
+          description: Cancellation request acknowledged (not guaranteed).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusError' }
+webhooks:
+  orderEvent:
+    post:
+      operationId: receiveOrderWebhook
+      summary: Order/task/test lifecycle event
+      description: >-
+        Orange Health POSTs HMAC-SHA256-signed lifecycle events to the partner's
+        registered URL. Signature is in the X-OH-Signature header (key = webhook
+        secret, message = raw body). Deduplicate on the x-oh-event-id header (uuid).
+        Non-2xx responses are retried with exponential backoff for up to 7 days.
+        Event types: order.created, task.confirmed, task.assigned, task.accepted,
+        task.started, task.in_progress, task.completed, test.completed_not_sent,
+        test.completed_sent, order.completed, order.cancelled, task.deleted.
+      parameters:
+        - { name: X-OH-Signature, in: header, required: true, schema: { type: string }, description: HMAC-SHA256 hex digest of the raw body keyed by the webhook secret. }
+        - { name: x-oh-event-id, in: header, required: true, schema: { type: string, format: uuid }, description: Unique event id for idempotency. }
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/WebhookEnvelope' }
+      responses:
+        '200':
+          description: Event acknowledged.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api_key
+      description: >-
+        Partner API key sent in the api_key header. Public sandbox keys:
+        partner-alwaysPartner, partner-alwaysOH, partner-decidedAtOrderLevel.
+        Production keys via integrations@orangehealth.in.
+  schemas:
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status: { type: string }
+      examples:
+        - { status: "Location provided is unserviceable" }
+    InvalidDateRangeError:
+      type: object
+      properties:
+        error: { type: string }
+        message: { type: string }
+      examples:
+        - error: "Invalid date range"
+          message: "Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference."
+    ServiceabilityResponse:
+      type: object
+      properties:
+        status: { type: string, examples: ["Location is serviceable"] }
+        slots:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              slot_datetime: { type: string, format: date-time }
+              is_morning_slot: { type: boolean }
+              is_afternoon_slot: { type: boolean }
+              is_evening_slot: { type: boolean }
+    PatientDetail:
+      type: object
+      properties:
+        partner_reference_id: { type: string }
+        patient_name: { type: string }
+        patient_phone: { type: string }
+        age: { type: string }
+        gender: { type: string, enum: [Male, Female, Other] }
+        tests:
+          type: array
+          items:
+            type: object
+            properties: { test_id: { type: string } }
+        packages:
+          type: array
+          items:
+            type: object
+            properties: { package_id: { type: string } }
+    CreateOrderRequest:
+      type: object
+      required: [primary_patient_name, primary_patient_number, patient_details]
+      properties:
+        address: { type: string }
+        in_clinic_request: { type: boolean, description: "true for lab drop-off orders." }
+        location:
+          type: object
+          properties:
+            latitude: { type: string }
+            longitude: { type: string }
+        slot_datetime: { type: string, format: date-time }
+        payment_type: { type: string, examples: [paid_by_group] }
+        primary_patient_name: { type: string }
+        primary_patient_number: { type: string }
+        patient_details:
+          type: array
+          items: { $ref: '#/components/schemas/PatientDetail' }
+    CampOrderRequest:
+      type: object
+      properties:
+        customer_name: { type: string }
+        customer_number: { type: string }
+        partner_reference_id: { type: string }
+        patient_name: { type: string }
+        age: { type: string }
+        gender: { type: string }
+        tests:
+          type: array
+          items:
+            type: object
+            properties: { test_id: { type: string } }
+        packages:
+          type: array
+          items:
+            type: object
+            properties: { package_id: { type: string } }
+    AddOnOrderRequest:
+      type: object
+      properties:
+        partner_reference_id: { type: string }
+        patient_name: { type: string }
+        age: { type: string }
+        gender: { type: string }
+        patient_phone: { type: string }
+        partner_notes: { type: string }
+        tests:
+          type: array
+          items:
+            type: object
+            properties: { test_id: { type: string } }
+        packages:
+          type: array
+          items:
+            type: object
+            properties: { package_id: { type: string } }
+    RescheduleRequest:
+      type: object
+      required: [requested_slot_time]
+      properties:
+        requested_slot_time: { type: string, format: date-time }
+        reschedule_reason: { type: string }
+        reschedule_explanation: { type: string }
+    CancelRequest:
+      type: object
+      properties:
+        cancellationExplanation: { type: string }
+        cancellationReason: { type: string }
+    OrderRef:
+      type: object
+      properties:
+        id: { type: integer }
+        partnerReferenceId: { type: string }
+    CreateOrderResponse:
+      type: object
+      properties:
+        request_id: { type: string }
+        oms_request_id: { type: string }
+        token: { type: string, format: uuid }
+        status: { type: string, examples: [Scheduled] }
+        orders:
+          type: array
+          items: { $ref: '#/components/schemas/OrderRef' }
+    OrderDetailsResponse:
+      type: object
+      properties:
+        status: { type: integer }
+        data:
+          type: object
+          properties:
+            id: { type: string }
+            status: { type: string, examples: [completed] }
+            customer_details:
+              type: object
+              properties:
+                customer_name: { type: string }
+                customer_number: { type: string }
+            patient_information:
+              type: array
+              items:
+                type: object
+                properties:
+                  patientName: { type: string }
+                  reportURL: { type: string, format: uri }
+                  tests: { type: object }
+            paymentMetadata:
+              type: array
+              items:
+                type: object
+                properties:
+                  paymentStatus: { type: string }
+    TestResultsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            orders:
+              type: array
+              items:
+                type: object
+                properties:
+                  order_id: { type: integer }
+                  request_id: { type: string }
+                  patient_name: { type: string }
+                  patient_age: { type: integer }
+                  patient_gender: { type: string }
+                  order_created_at: { type: string, format: date-time }
+                  tests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        test_name: { type: string }
+                        investigation_name: { type: string }
+                        investigation_value: { type: string }
+                        investigation_value_unit: { type: string }
+                        investigation_is_abnormal: { type: string, description: "A when abnormal." }
+    WebhookEnvelope:
+      type: object
+      description: Common webhook envelope — event name, contained keys, and payload.
+      properties:
+        event: { type: string, description: "object.verb, e.g. order.created" }
+        contains:
+          type: array
+          items: { type: string }
+        payload: { type: object }

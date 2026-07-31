@@ -1,0 +1,56 @@
+generated: '2026-07-20'
+method: searched
+source: https://orangehealth.docs.apiary.io/
+spec_type: Webhooks
+transport: HTTPS POST to partner-registered URL
+security:
+  signature_header: X-OH-Signature
+  algorithm: HMAC-SHA256
+  key: partner webhook secret
+  message: raw request body stringified with zero whitespace
+idempotency:
+  header: x-oh-event-id
+  format: uuid
+delivery:
+  ordering: best-effort, not guaranteed
+  retries: exponential backoff up to 24h after creation, then once every 24h; disabled after 7 days
+envelope:
+  event: object.verb string
+  contains: array of keys present in payload
+  payload: object with event data
+typical_order:
+  - order.created
+  - task.confirmed
+  - task.assigned
+  - task.accepted
+  - task.started
+  - task.in_progress
+  - task.completed
+  - test.completed_not_sent
+  - test.completed_sent
+  - order.completed
+events:
+  - event: order.created
+    description: Order successfully placed (one per patient).
+  - event: task.confirmed
+    description: Collection task confirmed.
+  - event: task.assigned
+    description: Task assigned to a phlebotomist (emedic).
+  - event: task.accepted
+    description: Phlebotomist accepted the task.
+  - event: task.started
+    description: Phlebotomist started the task (tracking link becomes available).
+  - event: task.in_progress
+    description: Collection in progress.
+  - event: task.completed
+    description: Sample collection completed.
+  - event: test.completed_not_sent
+    description: Test processed; report not yet dispatched.
+  - event: test.completed_sent
+    description: Test processed and report dispatched.
+  - event: order.completed
+    description: Terminal success state for the order.
+  - event: order.cancelled
+    description: Order cancelled (terminal, paired with task.deleted).
+  - event: task.deleted
+    description: Task removed following cancellation.

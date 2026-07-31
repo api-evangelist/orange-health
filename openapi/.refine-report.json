@@ -1,0 +1,18 @@
+{
+  "provider": "orange-health",
+  "sources": [
+    "orange-health-orders-api-openapi.yml",
+    "orange-health-results-api-openapi.yml",
+    "orange-health-serviceability-api-openapi.yml"
+  ],
+  "outputs": [
+    "orange-health-orders-api-openapi.yml",
+    "orange-health-results-api-openapi.yml",
+    "orange-health-serviceability-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

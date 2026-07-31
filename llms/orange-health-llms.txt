@@ -1,0 +1,44 @@
+# Orange Health Labs — Partner API
+
+> Orange Health Labs is an Indian at-home diagnostics lab (Bengaluru, Delhi,
+> Gurgaon, Noida, Hyderabad) offering 60-minute home sample collection and
+> 6-hour reporting. The Partner API lets partners check serviceability, create
+> home-collection / lab-drop-off / camp orders, track order status, reschedule,
+> cancel, add-on tests, pull structured results, and receive HMAC-signed
+> lifecycle webhooks. Auth is an api_key request header.
+
+## APIs
+- [Partner API (Apiary docs)](https://orangehealth.docs.apiary.io/): Public order-flow documentation.
+- Production base URL: https://partner-api.orangehealth.in
+- Sandbox base URL: https://sandbox-partner-api.orangehealth.dev
+
+## Specs
+- [OpenAPI 3.1 (derived)](openapi/orange-health-partner-openapi.yml)
+- [API Blueprint (verbatim source)](openapi/orange-health-partner-api.apib)
+- [Webhooks / event catalog](asyncapi/orange-health-webhooks.yml)
+
+## Operations
+- GET /v1/partner/serviceability — fetch serviceability + slots
+- POST /v1/partner/order — create order (home collection / lab drop-off)
+- POST /v1/partner/camp/{campID}/order — create camp order
+- GET /v1/partner/order-details/{requestID} — order status
+- GET /v1/partner/test-results — structured test results (<=7-day window)
+- POST /v1/partner/{requestID}/add-on-order — add tests/packages
+- PATCH /v1/partner/{requestID}/reschedule — reschedule
+- PATCH /v1/partner/{requestID}/cancel — cancel (async)
+
+## Artifacts
+- [Authentication](authentication/orange-health-authentication.yml)
+- [Conventions](conventions/orange-health-conventions.yml)
+- [Error catalog](errors/orange-health-problem-types.yml)
+- [Data model](data-model/orange-health-data-model.yml)
+- [Sandbox / test data](sandbox/orange-health-sandbox.yml)
+- [Lifecycle](lifecycle/orange-health-lifecycle.yml)
+- [Conformance](conformance/orange-health-conformance.yml)
+- [Agent skills](skills/_index.yml)
+
+## Docs
+- [Website](https://www.orangehealth.in/)
+- [Corporate partners](https://www.orangehealth.in/corporate-partners)
+- Sandbox test keys: partner-alwaysPartner, partner-alwaysOH, partner-decidedAtOrderLevel
+- Production/sandbox keys: integrations@orangehealth.in

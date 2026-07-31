@@ -1,9 +1,30 @@
 aid: orange-health
 name: Orange Health
-description: 'Orange Health is a company surfaced as a portfolio company of accel, general-catalyst and
-  added to the API Evangelist network as a stub for enrichment. Sector: mobile. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: >-
+  Orange Health Labs is an Indian at-home diagnostics laboratory serving
+  Bengaluru, Delhi, Gurgaon, Noida and Hyderabad, offering 60-minute home
+  sample collection and test results within about six hours. Its Partner API
+  (documented on Apiary as the "Partner API Public Order Flow") lets healthcare
+  partners, employers and apps check location serviceability and slots, create
+  home-collection, lab-drop-off and health-camp orders, track order status,
+  reschedule, cancel and add on tests, and pull structured investigation-level
+  test results. Order lifecycle transitions (order.created through
+  order.completed / order.cancelled) are delivered as HMAC-SHA256 signed
+  webhooks. Authentication is an api_key request header.
 url: https://raw.githubusercontent.com/api-evangelist/orange-health/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://d1wi3p9y2i20go.cloudfront.net/website/homepage/dweb/hero-section/hero-new.webp
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -13,11 +34,119 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
 - Mobile
-apis: []
+- Healthcare
+- Diagnostics
+- Lab Testing
+- Home Collection
+- Webhooks
+- India
+apis:
+- aid: orange-health:orange-health-orders-api
+  name: Orange Health Orders API
+  description: Create and manage diagnostic collection orders.
+  humanURL: https://orangehealth.docs.apiary.io/
+  baseURL: https://partner-api.orangehealth.in
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/orange-health-orders-api-openapi.yml
+  - type: APIReference
+    url: https://orangehealth.docs.apiary.io/
+  - type: Authentication
+    url: authentication/orange-health-authentication.yml
+  - type: ErrorCatalog
+    url: errors/orange-health-problem-types.yml
+  - type: Conventions
+    url: conventions/orange-health-conventions.yml
+  - type: Idempotency
+    url: conventions/orange-health-conventions.yml
+  - type: DataModel
+    url: data-model/orange-health-data-model.yml
+  - type: Sandbox
+    url: sandbox/orange-health-sandbox.yml
+  - type: Lifecycle
+    url: lifecycle/orange-health-lifecycle.yml
+  - type: Conformance
+    url: conformance/orange-health-conformance.yml
+  - type: AsyncAPI
+    url: asyncapi/orange-health-webhooks.yml
+  - type: Webhooks
+    url: asyncapi/orange-health-webhooks.yml
+  - type: LLMsTxt
+    url: llms/orange-health-llms.txt
+- aid: orange-health:orange-health-results-api
+  name: Orange Health Results API
+  description: Retrieve order status and structured test results.
+  humanURL: https://orangehealth.docs.apiary.io/
+  baseURL: https://partner-api.orangehealth.in
+  tags:
+  - Results
+  properties:
+  - type: OpenAPI
+    url: openapi/orange-health-results-api-openapi.yml
+  - type: APIReference
+    url: https://orangehealth.docs.apiary.io/
+  - type: Authentication
+    url: authentication/orange-health-authentication.yml
+  - type: ErrorCatalog
+    url: errors/orange-health-problem-types.yml
+  - type: Conventions
+    url: conventions/orange-health-conventions.yml
+  - type: Idempotency
+    url: conventions/orange-health-conventions.yml
+  - type: DataModel
+    url: data-model/orange-health-data-model.yml
+  - type: Sandbox
+    url: sandbox/orange-health-sandbox.yml
+  - type: Lifecycle
+    url: lifecycle/orange-health-lifecycle.yml
+  - type: Conformance
+    url: conformance/orange-health-conformance.yml
+  - type: AsyncAPI
+    url: asyncapi/orange-health-webhooks.yml
+  - type: Webhooks
+    url: asyncapi/orange-health-webhooks.yml
+  - type: LLMsTxt
+    url: llms/orange-health-llms.txt
+- aid: orange-health:orange-health-serviceability-api
+  name: Orange Health Serviceability API
+  description: Check whether a location is serviceable and fetch available slots.
+  humanURL: https://orangehealth.docs.apiary.io/
+  baseURL: https://partner-api.orangehealth.in
+  tags:
+  - Serviceability
+  properties:
+  - type: OpenAPI
+    url: openapi/orange-health-serviceability-api-openapi.yml
+  - type: APIReference
+    url: https://orangehealth.docs.apiary.io/
+  - type: Authentication
+    url: authentication/orange-health-authentication.yml
+  - type: ErrorCatalog
+    url: errors/orange-health-problem-types.yml
+  - type: Conventions
+    url: conventions/orange-health-conventions.yml
+  - type: Idempotency
+    url: conventions/orange-health-conventions.yml
+  - type: DataModel
+    url: data-model/orange-health-data-model.yml
+  - type: Sandbox
+    url: sandbox/orange-health-sandbox.yml
+  - type: Lifecycle
+    url: lifecycle/orange-health-lifecycle.yml
+  - type: Conformance
+    url: conformance/orange-health-conformance.yml
+  - type: AsyncAPI
+    url: asyncapi/orange-health-webhooks.yml
+  - type: Webhooks
+    url: asyncapi/orange-health-webhooks.yml
+  - type: LLMsTxt
+    url: llms/orange-health-llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -26,3 +155,36 @@ maintainers:
 common:
 - type: Website
   url: https://www.orangehealth.in/
+- type: Documentation
+  url: https://orangehealth.docs.apiary.io/
+- type: APIReference
+  url: https://orangehealth.docs.apiary.io/
+- type: Blog
+  url: https://www.orangehealth.in/blog
+- type: Support
+  url: https://www.orangehealth.in/corporate-partners
+- type: TermsOfService
+  url: https://www.orangehealth.in/terms
+- type: PrivacyPolicy
+  url: https://www.orangehealth.in/privacy-policy
+- type: Authentication
+  url: authentication/orange-health-authentication.yml
+- type: DomainSecurity
+  url: security/orange-health-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/orange-health-vulnerability-disclosure.yml
+- type: Security
+  url: security/orange-health-vulnerability-disclosure.yml
+- type: WellKnown
+  url: well-known/orange-health-well-known.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Webhooks
+  url: asyncapi/orange-health-webhooks.yml
+- type: MCPServer
+  url: mcp/orange-health-mcp.yml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 19
+  pass: local-v1

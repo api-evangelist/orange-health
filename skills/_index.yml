@@ -1,0 +1,12 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/orange-health-partner-openapi.yml
+skills:
+  - file: orange-health-book-home-collection.md
+    name: Book an at-home diagnostic collection
+    api: openapi/orange-health-partner-openapi.yml
+    operations: [fetchServiceability, createOrder, getOrderStatus, getTestResults]
+  - file: orange-health-manage-order-lifecycle.md
+    name: Reschedule, add-on, or cancel a collection order
+    api: openapi/orange-health-partner-openapi.yml
+    operations: [addOnOrder, rescheduleOrder, cancelOrder, getOrderStatus]

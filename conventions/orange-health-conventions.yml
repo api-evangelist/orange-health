@@ -1,0 +1,49 @@
+generated: '2026-07-20'
+method: searched
+source: https://orangehealth.docs.apiary.io/
+authentication:
+  style: api-key-header
+  header: api_key
+  ref: authentication/orange-health-authentication.yml
+idempotency:
+  supported: true
+  request_side:
+    mechanism: duplicate-suppression
+    detail: >-
+      An identical Create Order payload replayed within one minute is rejected
+      with HTTP 425 "Request already accepted", providing server-side
+      de-duplication of order creation.
+  webhook_side:
+    mechanism: event-id-dedup
+    header: x-oh-event-id
+    detail: >-
+      Every delivered webhook carries a unique x-oh-event-id (uuid). Consumers
+      must dedupe on it since events can be delivered more than once and out of order.
+pagination:
+  supported: false
+  note: >-
+    No cursor/offset pagination. Test Results are bounded by a max 7-day date
+    range; results are returned in full for the queried window.
+correlation:
+  order_handle:
+    - request_id      # a.k.a. oms_request_id on camp orders
+    - token           # uuid returned at create; required on all follow-up calls
+  partner_reference_id: Echoed back on every order and webhook for partner-side reconciliation.
+versioning:
+  scheme: uri-path
+  current: v1
+webhooks:
+  transport: HTTPS POST to partner-registered URL
+  signature:
+    header: X-OH-Signature
+    algorithm: HMAC-SHA256
+    key: partner webhook secret
+    message: raw request body stringified with zero whitespace
+  ordering: best-effort, not guaranteed
+  retries: exponential backoff up to 24h, then daily; disabled after 7 days of failure
+  ref: asyncapi/orange-health-webhooks.yml
+error_envelope:
+  shape: single "status" string on most endpoints; {error,message} on test-results date errors
+  ref: errors/orange-health-problem-types.yml
+rate_limit_signaling:
+  documented: false

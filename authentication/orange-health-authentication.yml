@@ -1,0 +1,17 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/orange-health-partner-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: api_key
+  description: 'Partner API key sent in the api_key header. Public sandbox keys: partner-alwaysPartner,
+    partner-alwaysOH, partner-decidedAtOrderLevel. Production keys via integrations@orangehealth.in.'
+  sources:
+  - openapi/orange-health-partner-openapi.yml

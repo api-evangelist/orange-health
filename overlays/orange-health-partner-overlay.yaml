@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Orange Health Partner API
+  version: 1.0.0
+extends: openapi/orange-health-partner-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-rating: 3
+      x-apievangelist-notes: >-
+        Real partner API harvested from the published Apiary API Blueprint.
+        Strong webhook/event surface (HMAC-signed). Errors are a bare {status}
+        string rather than RFC 9457 problem+json — a recommended upgrade.
+  - target: $.components.securitySchemes.ApiKeyAuth
+    update:
+      x-apievangelist-auth-style: api-key-header
+  - target: $.info
+    update:
+      x-idempotency:
+        create_order: duplicate payload within 60s returns HTTP 425
+        webhooks: dedupe on x-oh-event-id (uuid)

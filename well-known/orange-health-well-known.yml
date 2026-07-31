@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+source: live /.well-known probes of API + website hosts
+hosts:
+  - host: https://partner-api.orangehealth.in
+    documents:
+      - { path: /.well-known/security.txt, status: 404 }
+      - { path: /.well-known/openid-configuration, status: 404 }
+      - { path: /.well-known/oauth-authorization-server, status: 404 }
+      - { path: /.well-known/api-catalog, status: 404 }
+      - { path: /.well-known/ai-plugin.json, status: 404 }
+  - host: https://www.orangehealth.in
+    documents:
+      - { path: /.well-known/security.txt, status: 200, note: soft-404 (Next.js SPA HTML, not a real document) }
+      - { path: /.well-known/openid-configuration, status: 200, note: soft-404 SPA HTML }
+      - { path: /.well-known/oauth-authorization-server, status: 200, note: soft-404 SPA HTML }
+      - { path: /.well-known/api-catalog, status: 200, note: soft-404 SPA HTML }
+      - { path: /.well-known/ai-plugin.json, status: 200, note: soft-404 SPA HTML }
+notes: >-
+  The website returns HTTP 200 with SPA HTML for every /.well-known path (soft-404),
+  so no genuine well-known documents were captured. A real security-contact channel
+  exists via the domain CAA iodef record (secure@orangehealth.in) — see
+  security/orange-health-domain-security.yml.
