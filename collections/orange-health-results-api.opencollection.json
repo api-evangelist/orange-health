@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Orange Health Partner Orders Results API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get order status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partner-api.orangehealth.in/v1/partner/order-details/:requestID",
+            "params": [
+              {
+                "name": "requestID",
+                "value": "",
+                "type": "path",
+                "description": "request_id from the create-order response."
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "token from the create-order response."
+              }
+            ]
+          },
+          "docs": "Retrieve the current status and details of an order."
+        },
+        {
+          "info": {
+            "name": "Get test results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partner-api.orangehealth.in/v1/partner/test-results",
+            "params": [
+              {
+                "name": "creation_start_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "creation_end_date",
+                "value": "",
+                "type": "query",
+                "description": "Max 7-day range from start."
+              },
+              {
+                "name": "request_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patient_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "primary_patient_number",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieve structured investigation-level test results by date range (max 7 days), request_id(s), patient_id(s), or primary patient number."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

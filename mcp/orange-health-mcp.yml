@@ -6,28 +6,34 @@ server:
   name: orange-health-partner
   transport: http
 tools:
-  - name: fetch_serviceability
-    description: Check if a location is serviceable and list available collection slots.
-    source_operation: openapi/orange-health-partner-openapi.yml#fetchServiceability
-  - name: create_order
-    description: Create a home-collection or lab-drop-off diagnostic order.
-    source_operation: openapi/orange-health-partner-openapi.yml#createOrder
-  - name: create_camp_order
-    description: Create an order under a health camp.
-    source_operation: openapi/orange-health-partner-openapi.yml#createCampOrder
-  - name: get_order_status
-    description: Retrieve the current status and details of an order.
-    source_operation: openapi/orange-health-partner-openapi.yml#getOrderStatus
-  - name: get_test_results
-    description: Retrieve structured investigation-level test results.
-    source_operation: openapi/orange-health-partner-openapi.yml#getTestResults
-  - name: add_on_order
-    description: Add tests or packages to an existing order.
-    source_operation: openapi/orange-health-partner-openapi.yml#addOnOrder
-  - name: reschedule_order
-    description: Reschedule an order before collection starts.
-    source_operation: openapi/orange-health-partner-openapi.yml#rescheduleOrder
-  - name: cancel_order
-    description: Request cancellation of an order (asynchronous).
-    source_operation: openapi/orange-health-partner-openapi.yml#cancelOrder
+- name: fetch_serviceability
+  description: Check if a location is serviceable and list available collection slots.
+  source_operation: openapi/orange-health-partner-openapi.yml#fetchServiceability
+- name: create_order
+  description: Create a home-collection or lab-drop-off diagnostic order.
+  source_operation: openapi/orange-health-partner-openapi.yml#createOrder
+- name: create_camp_order
+  description: Create an order under a health camp.
+  source_operation: openapi/orange-health-partner-openapi.yml#createCampOrder
+- name: get_order_status
+  description: Retrieve the current status and details of an order.
+  source_operation: openapi/orange-health-partner-openapi.yml#getOrderStatus
+- name: get_test_results
+  description: Retrieve structured investigation-level test results.
+  source_operation: openapi/orange-health-partner-openapi.yml#getTestResults
+- name: add_on_order
+  description: Add tests or packages to an existing order.
+  source_operation: openapi/orange-health-partner-openapi.yml#addOnOrder
+- name: reschedule_order
+  description: Reschedule an order before collection starts.
+  source_operation: openapi/orange-health-partner-openapi.yml#rescheduleOrder
+- name: cancel_order
+  description: Request cancellation of an order (asynchronous).
+  source_operation: openapi/orange-health-partner-openapi.yml#cancelOrder
 notes: No official hosted MCP server found; tool list derived from OpenAPI operations.
+deployment:
+  mode: none
+  verified: derived
+  tools: 8
+  checked: '2026-08-12'
+  source: catalog MCP census

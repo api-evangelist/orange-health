@@ -1,0 +1,297 @@
+{
+  "item": [
+    {
+      "id": "acb96081-3107-47ca-a25c-18b766e74bb8",
+      "name": "Serviceability",
+      "description": {
+        "content": "Check whether a location is serviceable and fetch available slots.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c3b8330d-92c1-40aa-b9ae-c4a00b1f31aa",
+          "name": "Fetch serviceability",
+          "request": {
+            "name": "Fetch serviceability",
+            "description": {
+              "content": "Check whether a pickup location is serviceable and, when latitude and longitude are supplied, return the available collection slots. When only a pincode is supplied, returns serviceability without slots.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "partner",
+                "serviceability"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "latitude",
+                  "value": "<number>",
+                  "description": "Latitude of pickup location. 13.0240 for sandbox testing."
+                },
+                {
+                  "disabled": false,
+                  "key": "longitude",
+                  "value": "<number>",
+                  "description": "Longitude of pickup location. 77.6433 for sandbox testing."
+                },
+                {
+                  "disabled": false,
+                  "key": "request_date",
+                  "value": "<date>",
+                  "description": "(Required) Pickup date (YYYY-MM-DD), must be >= today."
+                },
+                {
+                  "disabled": false,
+                  "key": "pincode",
+                  "value": "<string>",
+                  "description": "Pincode when lat/long unavailable. 560043 for sandbox testing."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4c122b3-3132-4539-9ed1-6485828d187e",
+              "name": "Location serviceable (with or without slots).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "serviceability"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "latitude",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "longitude",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "request_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "pincode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Location is serviceable\",\n  \"slots\": {\n    \"key_0\": {\n      \"slot_datetime\": \"1969-09-06T19:16:22.640Z\",\n      \"is_morning_slot\": true,\n      \"is_afternoon_slot\": false,\n      \"is_evening_slot\": true\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fcb6631-4d56-43ae-9a71-14cf42e08043",
+              "name": "Location unserviceable or invalid/missing parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "serviceability"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "latitude",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "longitude",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "request_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "pincode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Location provided is unserviceable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2c83ce9-40ec-430c-9bc5-6bca04ff3658",
+              "name": "Unserviceable pincode region.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "serviceability"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "latitude",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "longitude",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "request_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "pincode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Location provided is unserviceable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partner-api.orangehealth.in",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6df9d755-e0b8-40ab-a6b2-3025c65abdb5",
+    "name": "Orange Health Partner Orders Serviceability API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Partner API for Orange Health Labs — a home-collection diagnostics lab serving Indian metros. Partners check serviceability, create home-collection, lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to orders, and pull structured test results. Order lifecycle transitions are delivered as HMAC-signed webhooks. Derived from the published Apiary API Blueprint (Partner API Public Order Flow).\n\nContact Support:\n Name: Orange Health Integrations\n Email: integrations@orangehealth.in",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,442 @@
+{
+  "item": [
+    {
+      "id": "ea5d40e7-aeb1-4032-af3f-4d337e08874f",
+      "name": "Results",
+      "description": {
+        "content": "Retrieve order status and structured test results.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6c789b33-8c49-483c-bea5-5af963e6f767",
+          "name": "Get order status",
+          "request": {
+            "name": "Get order status",
+            "description": {
+              "content": "Retrieve the current status and details of an order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "partner",
+                "order-details",
+                ":requestID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "token",
+                  "value": "<string>",
+                  "description": "(Required) token from the create-order response."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "requestID",
+                  "description": "(Required) request_id from the create-order response."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "93fef0b9-d949-43dd-8af7-cbd79a15a5c3",
+              "name": "Order details retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "order-details",
+                    ":requestID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestID",
+                      "description": "(Required) request_id from the create-order response."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4767,\n  \"data\": {\n    \"id\": \"string\",\n    \"status\": \"completed\",\n    \"customer_details\": {\n      \"customer_name\": \"string\",\n      \"customer_number\": \"string\"\n    },\n    \"patient_information\": [\n      {\n        \"patientName\": \"string\",\n        \"reportURL\": \"http://tZUdmuIWHHEdTiKESwmNnxlnGhnmknqd.iwbwilKydMnQ\",\n        \"tests\": {}\n      },\n      {\n        \"patientName\": \"string\",\n        \"reportURL\": \"https://FDDEJJfcebqGqYcfO.xipMBJFfhVbSzvvuxh3MIWY.D9QIOKw+wSvQ04pd3ApTHG.pF1XjVtbSBDPW3x+zN\",\n        \"tests\": {}\n      }\n    ],\n    \"paymentMetadata\": [\n      {\n        \"paymentStatus\": \"string\"\n      },\n      {\n        \"paymentStatus\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38b88874-c130-4ee8-b495-ea6406d9dd4d",
+              "name": "Invalid request ID or token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "order-details",
+                    ":requestID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestID",
+                      "description": "(Required) request_id from the create-order response."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Location provided is unserviceable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ac0f91aa-57b4-4328-a8ea-b88de5d812a1",
+          "name": "Get test results",
+          "request": {
+            "name": "Get test results",
+            "description": {
+              "content": "Retrieve structured investigation-level test results by date range (max 7 days), request_id(s), patient_id(s), or primary patient number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "partner",
+                "test-results"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "creation_start_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "creation_end_date",
+                  "value": "<date>",
+                  "description": "Max 7-day range from start."
+                },
+                {
+                  "disabled": false,
+                  "key": "request_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "request_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "primary_patient_number",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c036c9b0-643d-428a-ae14-69c3e6ad2aab",
+              "name": "Test results retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "test-results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "creation_start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "creation_end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "patient_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "patient_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primary_patient_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"orders\": [\n      {\n        \"order_id\": 9308,\n        \"request_id\": \"string\",\n        \"patient_name\": \"string\",\n        \"patient_age\": 2118,\n        \"patient_gender\": \"string\",\n        \"order_created_at\": \"1993-12-21T19:50:58.578Z\",\n        \"tests\": [\n          {\n            \"test_name\": \"string\",\n            \"investigation_name\": \"string\",\n            \"investigation_value\": \"string\",\n            \"investigation_value_unit\": \"string\",\n            \"investigation_is_abnormal\": \"string\"\n          },\n          {\n            \"test_name\": \"string\",\n            \"investigation_name\": \"string\",\n            \"investigation_value\": \"string\",\n            \"investigation_value_unit\": \"string\",\n            \"investigation_is_abnormal\": \"string\"\n          }\n        ]\n      },\n      {\n        \"order_id\": 9307,\n        \"request_id\": \"string\",\n        \"patient_name\": \"string\",\n        \"patient_age\": 2091,\n        \"patient_gender\": \"string\",\n        \"order_created_at\": \"1968-06-08T06:55:12.225Z\",\n        \"tests\": [\n          {\n            \"test_name\": \"string\",\n            \"investigation_name\": \"string\",\n            \"investigation_value\": \"string\",\n            \"investigation_value_unit\": \"string\",\n            \"investigation_is_abnormal\": \"string\"\n          },\n          {\n            \"test_name\": \"string\",\n            \"investigation_name\": \"string\",\n            \"investigation_value\": \"string\",\n            \"investigation_value_unit\": \"string\",\n            \"investigation_is_abnormal\": \"string\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ed2d7ec-d31f-4c39-b6ac-e1482ba361d0",
+              "name": "Invalid date range (must be <= 7 days).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "test-results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "creation_start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "creation_end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "request_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "patient_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "patient_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primary_patient_number",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Invalid date range\",\n  \"message\": \"Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partner-api.orangehealth.in",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4e7a7c77-8890-4e42-b21c-04985b2702c5",
+    "name": "Orange Health Partner Orders Results API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Partner API for Orange Health Labs — a home-collection diagnostics lab serving Indian metros. Partners check serviceability, create home-collection, lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to orders, and pull structured test results. Order lifecycle transitions are delivered as HMAC-signed webhooks. Derived from the published Apiary API Blueprint (Partner API Public Order Flow).\n\nContact Support:\n Name: Orange Health Integrations\n Email: integrations@orangehealth.in",
+      "type": "text/plain"
+    }
+  }
+}

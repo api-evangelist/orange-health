@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Orange Health Partner Orders Serviceability API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Serviceability",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch serviceability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partner-api.orangehealth.in/v1/partner/serviceability",
+            "params": [
+              {
+                "name": "latitude",
+                "value": "",
+                "type": "query",
+                "description": "Latitude of pickup location. 13.0240 for sandbox testing."
+              },
+              {
+                "name": "longitude",
+                "value": "",
+                "type": "query",
+                "description": "Longitude of pickup location. 77.6433 for sandbox testing."
+              },
+              {
+                "name": "request_date",
+                "value": "",
+                "type": "query",
+                "description": "Pickup date (YYYY-MM-DD), must be >= today."
+              },
+              {
+                "name": "pincode",
+                "value": "",
+                "type": "query",
+                "description": "Pincode when lat/long unavailable. 560043 for sandbox testing."
+              }
+            ]
+          },
+          "docs": "Check whether a pickup location is serviceable and, when latitude and longitude are supplied, return the available collection slots. When only a pincode is supplied, returns serviceability without slots."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

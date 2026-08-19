@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Orange Health Partner Orders API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create order (home collection or lab drop-off)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://partner-api.orangehealth.in/v1/partner/order",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a diagnostic order. Home-collection orders supply address, location and slot_datetime; lab drop-off orders supply in_clinic_request=true."
+        },
+        {
+          "info": {
+            "name": "Create camp order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://partner-api.orangehealth.in/v1/partner/camp/:campID/order",
+            "params": [
+              {
+                "name": "campID",
+                "value": "",
+                "type": "path",
+                "description": "Unique camp identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an order under a specific health-camp identifier."
+        },
+        {
+          "info": {
+            "name": "Add-on to an existing order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://partner-api.orangehealth.in/v1/partner/:requestID/add-on-order",
+            "params": [
+              {
+                "name": "requestID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add additional tests or packages for a patient to an existing request."
+        },
+        {
+          "info": {
+            "name": "Reschedule an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://partner-api.orangehealth.in/v1/partner/:requestID/reschedule",
+            "params": [
+              {
+                "name": "requestID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reschedule before the phlebotomist starts the task (before a tracking link is available)."
+        },
+        {
+          "info": {
+            "name": "Cancel an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://partner-api.orangehealth.in/v1/partner/:requestID/cancel",
+            "params": [
+              {
+                "name": "requestID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Request cancellation before the phlebotomist starts the task. Cancellation is asynchronous — confirm via the order.cancelled webhook or Get Order Status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

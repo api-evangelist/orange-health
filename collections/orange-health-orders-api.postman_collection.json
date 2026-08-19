@@ -1,0 +1,896 @@
+{
+  "item": [
+    {
+      "id": "af008e1d-8577-48e1-8858-e0845dc4dcb5",
+      "name": "Orders",
+      "description": {
+        "content": "Create and manage diagnostic collection orders.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "11ac2efd-d74c-4463-a3ca-2183ca2de6d9",
+          "name": "Create order (home collection or lab drop-off)",
+          "request": {
+            "name": "Create order (home collection or lab drop-off)",
+            "description": {
+              "content": "Create a diagnostic order. Home-collection orders supply address, location and slot_datetime; lab drop-off orders supply in_clinic_request=true.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "partner",
+                "order"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"primary_patient_name\": \"<string>\",\n  \"primary_patient_number\": \"<string>\",\n  \"patient_details\": [\n    {\n      \"partner_reference_id\": \"<string>\",\n      \"patient_name\": \"<string>\",\n      \"patient_phone\": \"<string>\",\n      \"age\": \"<string>\",\n      \"gender\": \"<string>\",\n      \"tests\": [\n        {\n          \"test_id\": \"<string>\"\n        },\n        {\n          \"test_id\": \"<string>\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"<string>\"\n        },\n        {\n          \"package_id\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"partner_reference_id\": \"<string>\",\n      \"patient_name\": \"<string>\",\n      \"patient_phone\": \"<string>\",\n      \"age\": \"<string>\",\n      \"gender\": \"<string>\",\n      \"tests\": [\n        {\n          \"test_id\": \"<string>\"\n        },\n        {\n          \"test_id\": \"<string>\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"<string>\"\n        },\n        {\n          \"package_id\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"address\": \"<string>\",\n  \"in_clinic_request\": \"<boolean>\",\n  \"location\": {\n    \"latitude\": \"<string>\",\n    \"longitude\": \"<string>\"\n  },\n  \"slot_datetime\": \"<dateTime>\",\n  \"payment_type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8b392ffb-38b5-47f6-a3d3-2a12ef5c00c0",
+              "name": "Lab drop-off order created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"primary_patient_name\": \"<string>\",\n  \"primary_patient_number\": \"<string>\",\n  \"patient_details\": [\n    {\n      \"partner_reference_id\": \"string\",\n      \"patient_name\": \"string\",\n      \"patient_phone\": \"string\",\n      \"age\": \"string\",\n      \"gender\": \"Other\",\n      \"tests\": [\n        {\n          \"test_id\": \"string\"\n        },\n        {\n          \"test_id\": \"string\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"string\"\n        },\n        {\n          \"package_id\": \"string\"\n        }\n      ]\n    },\n    {\n      \"partner_reference_id\": \"string\",\n      \"patient_name\": \"string\",\n      \"patient_phone\": \"string\",\n      \"age\": \"string\",\n      \"gender\": \"Male\",\n      \"tests\": [\n        {\n          \"test_id\": \"string\"\n        },\n        {\n          \"test_id\": \"string\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"string\"\n        },\n        {\n          \"package_id\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"address\": \"<string>\",\n  \"in_clinic_request\": \"<boolean>\",\n  \"location\": {\n    \"latitude\": \"<string>\",\n    \"longitude\": \"<string>\"\n  },\n  \"slot_datetime\": \"<dateTime>\",\n  \"payment_type\": \"paid_by_group\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"oms_request_id\": \"string\",\n  \"token\": \"943cf3e2-11b8-25f9-70ed-706ca9515d80\",\n  \"status\": \"Scheduled\",\n  \"orders\": [\n    {\n      \"id\": 1804,\n      \"partnerReferenceId\": \"string\"\n    },\n    {\n      \"id\": 8058,\n      \"partnerReferenceId\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f42ddec1-4eb1-49d0-9288-5756996268c0",
+              "name": "Home-collection order scheduled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"primary_patient_name\": \"<string>\",\n  \"primary_patient_number\": \"<string>\",\n  \"patient_details\": [\n    {\n      \"partner_reference_id\": \"string\",\n      \"patient_name\": \"string\",\n      \"patient_phone\": \"string\",\n      \"age\": \"string\",\n      \"gender\": \"Other\",\n      \"tests\": [\n        {\n          \"test_id\": \"string\"\n        },\n        {\n          \"test_id\": \"string\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"string\"\n        },\n        {\n          \"package_id\": \"string\"\n        }\n      ]\n    },\n    {\n      \"partner_reference_id\": \"string\",\n      \"patient_name\": \"string\",\n      \"patient_phone\": \"string\",\n      \"age\": \"string\",\n      \"gender\": \"Male\",\n      \"tests\": [\n        {\n          \"test_id\": \"string\"\n        },\n        {\n          \"test_id\": \"string\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"string\"\n        },\n        {\n          \"package_id\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"address\": \"<string>\",\n  \"in_clinic_request\": \"<boolean>\",\n  \"location\": {\n    \"latitude\": \"<string>\",\n    \"longitude\": \"<string>\"\n  },\n  \"slot_datetime\": \"<dateTime>\",\n  \"payment_type\": \"paid_by_group\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"oms_request_id\": \"string\",\n  \"token\": \"943cf3e2-11b8-25f9-70ed-706ca9515d80\",\n  \"status\": \"Scheduled\",\n  \"orders\": [\n    {\n      \"id\": 1804,\n      \"partnerReferenceId\": \"string\"\n    },\n    {\n      \"id\": 8058,\n      \"partnerReferenceId\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e50cdaf-eb97-4e3a-866f-4da05f2a649e",
+              "name": "Invalid parameters or unserviceable location.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"primary_patient_name\": \"<string>\",\n  \"primary_patient_number\": \"<string>\",\n  \"patient_details\": [\n    {\n      \"partner_reference_id\": \"string\",\n      \"patient_name\": \"string\",\n      \"patient_phone\": \"string\",\n      \"age\": \"string\",\n      \"gender\": \"Other\",\n      \"tests\": [\n        {\n          \"test_id\": \"string\"\n        },\n        {\n          \"test_id\": \"string\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"string\"\n        },\n        {\n          \"package_id\": \"string\"\n        }\n      ]\n    },\n    {\n      \"partner_reference_id\": \"string\",\n      \"patient_name\": \"string\",\n      \"patient_phone\": \"string\",\n      \"age\": \"string\",\n      \"gender\": \"Male\",\n      \"tests\": [\n        {\n          \"test_id\": \"string\"\n        },\n        {\n          \"test_id\": \"string\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"string\"\n        },\n        {\n          \"package_id\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"address\": \"<string>\",\n  \"in_clinic_request\": \"<boolean>\",\n  \"location\": {\n    \"latitude\": \"<string>\",\n    \"longitude\": \"<string>\"\n  },\n  \"slot_datetime\": \"<dateTime>\",\n  \"payment_type\": \"paid_by_group\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Location provided is unserviceable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22f302ea-9d1f-45cf-9174-dc9a776cadea",
+              "name": "Duplicate request within one minute (already accepted).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"primary_patient_name\": \"<string>\",\n  \"primary_patient_number\": \"<string>\",\n  \"patient_details\": [\n    {\n      \"partner_reference_id\": \"string\",\n      \"patient_name\": \"string\",\n      \"patient_phone\": \"string\",\n      \"age\": \"string\",\n      \"gender\": \"Other\",\n      \"tests\": [\n        {\n          \"test_id\": \"string\"\n        },\n        {\n          \"test_id\": \"string\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"string\"\n        },\n        {\n          \"package_id\": \"string\"\n        }\n      ]\n    },\n    {\n      \"partner_reference_id\": \"string\",\n      \"patient_name\": \"string\",\n      \"patient_phone\": \"string\",\n      \"age\": \"string\",\n      \"gender\": \"Male\",\n      \"tests\": [\n        {\n          \"test_id\": \"string\"\n        },\n        {\n          \"test_id\": \"string\"\n        }\n      ],\n      \"packages\": [\n        {\n          \"package_id\": \"string\"\n        },\n        {\n          \"package_id\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"address\": \"<string>\",\n  \"in_clinic_request\": \"<boolean>\",\n  \"location\": {\n    \"latitude\": \"<string>\",\n    \"longitude\": \"<string>\"\n  },\n  \"slot_datetime\": \"<dateTime>\",\n  \"payment_type\": \"paid_by_group\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unordered Collection (RFC 3648)",
+              "code": 425,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Location provided is unserviceable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "676a0b59-96c5-40a3-9701-aa486c7ef2f4",
+          "name": "Create camp order",
+          "request": {
+            "name": "Create camp order",
+            "description": {
+              "content": "Create an order under a specific health-camp identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "partner",
+                "camp",
+                ":campID",
+                "order"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campID",
+                  "description": "(Required) Unique camp identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_name\": \"<string>\",\n  \"customer_number\": \"<string>\",\n  \"partner_reference_id\": \"<string>\",\n  \"patient_name\": \"<string>\",\n  \"age\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"tests\": [\n    {\n      \"test_id\": \"<string>\"\n    },\n    {\n      \"test_id\": \"<string>\"\n    }\n  ],\n  \"packages\": [\n    {\n      \"package_id\": \"<string>\"\n    },\n    {\n      \"package_id\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d454552e-922b-4363-97db-0cc490aca68e",
+              "name": "Camp order scheduled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "camp",
+                    ":campID",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campID",
+                      "description": "(Required) Unique camp identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer_name\": \"<string>\",\n  \"customer_number\": \"<string>\",\n  \"partner_reference_id\": \"<string>\",\n  \"patient_name\": \"<string>\",\n  \"age\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"tests\": [\n    {\n      \"test_id\": \"<string>\"\n    },\n    {\n      \"test_id\": \"<string>\"\n    }\n  ],\n  \"packages\": [\n    {\n      \"package_id\": \"<string>\"\n    },\n    {\n      \"package_id\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"oms_request_id\": \"string\",\n  \"token\": \"943cf3e2-11b8-25f9-70ed-706ca9515d80\",\n  \"status\": \"Scheduled\",\n  \"orders\": [\n    {\n      \"id\": 1804,\n      \"partnerReferenceId\": \"string\"\n    },\n    {\n      \"id\": 8058,\n      \"partnerReferenceId\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3435099a-b977-463d-a607-75196b0c4e0e",
+              "name": "Invalid parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    "camp",
+                    ":campID",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campID",
+                      "description": "(Required) Unique camp identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer_name\": \"<string>\",\n  \"customer_number\": \"<string>\",\n  \"partner_reference_id\": \"<string>\",\n  \"patient_name\": \"<string>\",\n  \"age\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"tests\": [\n    {\n      \"test_id\": \"<string>\"\n    },\n    {\n      \"test_id\": \"<string>\"\n    }\n  ],\n  \"packages\": [\n    {\n      \"package_id\": \"<string>\"\n    },\n    {\n      \"package_id\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Location provided is unserviceable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8502f758-b469-4bd7-8d4c-8a79812b4742",
+          "name": "Add-on to an existing order",
+          "request": {
+            "name": "Add-on to an existing order",
+            "description": {
+              "content": "Add additional tests or packages for a patient to an existing request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "partner",
+                ":requestID",
+                "add-on-order"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "token",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "requestID",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partner_reference_id\": \"<string>\",\n  \"patient_name\": \"<string>\",\n  \"age\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"patient_phone\": \"<string>\",\n  \"partner_notes\": \"<string>\",\n  \"tests\": [\n    {\n      \"test_id\": \"<string>\"\n    },\n    {\n      \"test_id\": \"<string>\"\n    }\n  ],\n  \"packages\": [\n    {\n      \"package_id\": \"<string>\"\n    },\n    {\n      \"package_id\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "631fbbc4-60f2-4180-a763-451ba7485070",
+              "name": "Add-on order created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    ":requestID",
+                    "add-on-order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestID",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"partner_reference_id\": \"<string>\",\n  \"patient_name\": \"<string>\",\n  \"age\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"patient_phone\": \"<string>\",\n  \"partner_notes\": \"<string>\",\n  \"tests\": [\n    {\n      \"test_id\": \"<string>\"\n    },\n    {\n      \"test_id\": \"<string>\"\n    }\n  ],\n  \"packages\": [\n    {\n      \"package_id\": \"<string>\"\n    },\n    {\n      \"package_id\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request_id\": \"string\",\n  \"oms_request_id\": \"string\",\n  \"token\": \"943cf3e2-11b8-25f9-70ed-706ca9515d80\",\n  \"status\": \"Scheduled\",\n  \"orders\": [\n    {\n      \"id\": 1804,\n      \"partnerReferenceId\": \"string\"\n    },\n    {\n      \"id\": 8058,\n      \"partnerReferenceId\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3e361ccb-5de8-4019-85c0-0e6956614e68",
+          "name": "Reschedule an order",
+          "request": {
+            "name": "Reschedule an order",
+            "description": {
+              "content": "Reschedule before the phlebotomist starts the task (before a tracking link is available).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "partner",
+                ":requestID",
+                "reschedule"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "token",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "requestID",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requested_slot_time\": \"<dateTime>\",\n  \"reschedule_reason\": \"<string>\",\n  \"reschedule_explanation\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "17e7160c-08d0-4db0-93ee-996273d4bbcb",
+              "name": "Reschedule accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    ":requestID",
+                    "reschedule"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestID",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requested_slot_time\": \"<dateTime>\",\n  \"reschedule_reason\": \"<string>\",\n  \"reschedule_explanation\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": \"ok\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee91cba1-6b3f-4f48-9e04-aff5271be122",
+          "name": "Cancel an order",
+          "request": {
+            "name": "Cancel an order",
+            "description": {
+              "content": "Request cancellation before the phlebotomist starts the task. Cancellation is asynchronous — confirm via the order.cancelled webhook or Get Order Status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "partner",
+                ":requestID",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "token",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "requestID",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cancellationExplanation\": \"<string>\",\n  \"cancellationReason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bcc8019b-31e6-4386-97e8-6a4073648d97",
+              "name": "Cancellation request acknowledged (not guaranteed).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "partner",
+                    ":requestID",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "requestID",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api_key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cancellationExplanation\": \"<string>\",\n  \"cancellationReason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Location provided is unserviceable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partner-api.orangehealth.in",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f0fd3861-d006-4f0f-8c6c-49b75944073b",
+    "name": "Orange Health Partner Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Partner API for Orange Health Labs — a home-collection diagnostics lab serving Indian metros. Partners check serviceability, create home-collection, lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to orders, and pull structured test results. Order lifecycle transitions are delivered as HMAC-signed webhooks. Derived from the published Apiary API Blueprint (Partner API Public Order Flow).\n\nContact Support:\n Name: Orange Health Integrations\n Email: integrations@orangehealth.in",
+      "type": "text/plain"
+    }
+  }
+}
