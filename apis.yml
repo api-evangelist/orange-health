@@ -42,6 +42,15 @@ tags:
 - Diagnostics
 - Lab Testing
 - Home Collection
+- Webhook
+- India
+tags_raw:
+- Company
+- Mobile
+- Healthcare
+- Diagnostics
+- Lab Testing
+- Home Collection
 - Webhooks
 - India
 apis:
@@ -51,6 +60,8 @@ apis:
   humanURL: https://orangehealth.docs.apiary.io/
   baseURL: https://partner-api.orangehealth.in
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
