@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Orange Health Partner Orders Serviceability API
+  title: Orange Health Partner Serviceability API
   version: v1
   description: Partner API for Orange Health Labs — a home-collection diagnostics lab serving Indian metros. Partners check serviceability, create home-collection, lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to orders, and pull structured test results. Order lifecycle transitions are delivered as HMAC-signed webhooks. Derived from the published Apiary API Blueprint (Partner API Public Order Flow).
   contact:
@@ -76,6 +76,14 @@ paths:
                 $ref: '#/components/schemas/StatusError'
 components:
   schemas:
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
     ServiceabilityResponse:
       type: object
       properties:
@@ -97,14 +105,6 @@ components:
                 type: boolean
               is_evening_slot:
                 type: boolean
-    StatusError:
-      type: object
-      description: Standard error envelope — a single human-readable status string.
-      properties:
-        status:
-          type: string
-      examples:
-      - status: Location provided is unserviceable
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

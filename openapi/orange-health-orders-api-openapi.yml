@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Orange Health Partner Orders API
   version: v1
@@ -193,6 +193,70 @@ paths:
                 $ref: '#/components/schemas/StatusError'
 components:
   schemas:
+    PatientDetail:
+      type: object
+      properties:
+        partner_reference_id:
+          type: string
+        patient_name:
+          type: string
+        patient_phone:
+          type: string
+        age:
+          type: string
+        gender:
+          type: string
+          enum:
+          - Male
+          - Female
+          - Other
+        tests:
+          type: array
+          items:
+            type: object
+            properties:
+              test_id:
+                type: string
+        packages:
+          type: array
+          items:
+            type: object
+            properties:
+              package_id:
+                type: string
+    OrderRef:
+      type: object
+      properties:
+        id:
+          type: integer
+        partnerReferenceId:
+          type: string
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
+    CreateOrderResponse:
+      type: object
+      properties:
+        request_id:
+          type: string
+        oms_request_id:
+          type: string
+        token:
+          type: string
+          format: uuid
+        status:
+          type: string
+          examples:
+          - Scheduled
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRef'
     CreateOrderRequest:
       type: object
       required:
@@ -227,55 +291,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PatientDetail'
-    CancelRequest:
+    CampOrderRequest:
       type: object
       properties:
-        cancellationExplanation:
+        customer_name:
           type: string
-        cancellationReason:
+        customer_number:
           type: string
-    CreateOrderResponse:
-      type: object
-      properties:
-        request_id:
-          type: string
-        oms_request_id:
-          type: string
-        token:
-          type: string
-          format: uuid
-        status:
-          type: string
-          examples:
-          - Scheduled
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderRef'
-    OrderRef:
-      type: object
-      properties:
-        id:
-          type: integer
-        partnerReferenceId:
-          type: string
-    PatientDetail:
-      type: object
-      properties:
         partner_reference_id:
           type: string
         patient_name:
-          type: string
-        patient_phone:
           type: string
         age:
           type: string
         gender:
           type: string
-          enum:
-          - Male
-          - Female
-          - Other
         tests:
           type: array
           items:
@@ -319,43 +349,6 @@ components:
             properties:
               package_id:
                 type: string
-    StatusError:
-      type: object
-      description: Standard error envelope — a single human-readable status string.
-      properties:
-        status:
-          type: string
-      examples:
-      - status: Location provided is unserviceable
-    CampOrderRequest:
-      type: object
-      properties:
-        customer_name:
-          type: string
-        customer_number:
-          type: string
-        partner_reference_id:
-          type: string
-        patient_name:
-          type: string
-        age:
-          type: string
-        gender:
-          type: string
-        tests:
-          type: array
-          items:
-            type: object
-            properties:
-              test_id:
-                type: string
-        packages:
-          type: array
-          items:
-            type: object
-            properties:
-              package_id:
-                type: string
     RescheduleRequest:
       type: object
       required:
@@ -367,6 +360,13 @@ components:
         reschedule_reason:
           type: string
         reschedule_explanation:
+          type: string
+    CancelRequest:
+      type: object
+      properties:
+        cancellationExplanation:
+          type: string
+        cancellationReason:
           type: string
   securitySchemes:
     ApiKeyAuth:

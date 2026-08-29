@@ -1,11 +1,10 @@
 {
   "provider": "orange-health",
   "sources": [
-    "orange-health-orders-api-openapi.yml",
-    "orange-health-results-api-openapi.yml",
-    "orange-health-serviceability-api-openapi.yml"
+    "_original/orange-health-partner-openapi.yml"
   ],
   "outputs": [
+    "orange-health-orange-health-partner-api-api-openapi.yml",
     "orange-health-orders-api-openapi.yml",
     "orange-health-results-api-openapi.yml",
     "orange-health-serviceability-api-openapi.yml"
@@ -13,6 +12,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "orange-health-partner-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "orange-health-partner-openapi.yml: tagged webhooks POST orderEvent -> Orange Health Partner API",
+    "orange-health-partner-openapi.yml: declared missing tag: Orange Health Partner API"
+  ],
+  "skipped": [
+    "orange-health-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "orange-health-results-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "orange-health-serviceability-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

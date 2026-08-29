@@ -1,0 +1,74 @@
+openapi: 3.2.0
+info:
+  title: Orange Health Partner API
+  version: v1
+  description: Partner API for Orange Health Labs — a home-collection diagnostics lab serving Indian metros. Partners check serviceability, create home-collection, lab-drop-off and camp orders, track order status, reschedule/cancel/add-on to orders, and pull structured test results. Order lifecycle transitions are delivered as HMAC-signed webhooks. Derived from the published Apiary API Blueprint (Partner API Public Order Flow).
+  contact:
+    name: Orange Health Integrations
+    email: integrations@orangehealth.in
+    url: https://orangehealth.docs.apiary.io/
+  x-apievangelist:
+    method: derived
+    source: openapi/orange-health-partner-api.apib
+    generated: '2026-07-20'
+servers:
+- url: https://partner-api.orangehealth.in
+  description: Production
+- url: https://sandbox-partner-api.orangehealth.dev
+  description: Sandbox / testing
+security:
+- ApiKeyAuth: []
+tags:
+- name: Orange Health Partner API
+paths: {}
+webhooks:
+  orderEvent:
+    post:
+      operationId: receiveOrderWebhook
+      summary: Order/task/test lifecycle event
+      description: 'Orange Health POSTs HMAC-SHA256-signed lifecycle events to the partner''s registered URL. Signature is in the X-OH-Signature header (key = webhook secret, message = raw body). Deduplicate on the x-oh-event-id header (uuid). Non-2xx responses are retried with exponential backoff for up to 7 days. Event types: order.created, task.confirmed, task.assigned, task.accepted, task.started, task.in_progress, task.completed, test.completed_not_sent, test.completed_sent, order.completed, order.cancelled, task.deleted.'
+      parameters:
+      - name: X-OH-Signature
+        in: header
+        required: true
+        schema:
+          type: string
+        description: HMAC-SHA256 hex digest of the raw body keyed by the webhook secret.
+      - name: x-oh-event-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique event id for idempotency.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Event acknowledged.
+      tags:
+      - Orange Health Partner API
+components:
+  schemas:
+    WebhookEnvelope:
+      type: object
+      description: Common webhook envelope — event name, contained keys, and payload.
+      properties:
+        event:
+          type: string
+          description: object.verb, e.g. order.created
+        contains:
+          type: array
+          items:
+            type: string
+        payload:
+          type: object
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api_key
+      description: 'Partner API key sent in the api_key header. Public sandbox keys: partner-alwaysPartner, partner-alwaysOH, partner-decidedAtOrderLevel. Production keys via integrations@orangehealth.in.'

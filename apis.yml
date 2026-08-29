@@ -170,6 +170,17 @@ apis:
     url: asyncapi/orange-health-webhooks.yml
   - type: LLMsTxt
     url: llms/orange-health-llms.txt
+- aid: orange-health:orange-health-orange-health-partner-api-api
+  name: Orange Health Orange Health Partner API
+  description: >-
+    The Orange Health Partner API API from Orange Health — 0 operation(s) for orange health partner api.
+  humanURL: https://orangehealth.docs.apiary.io/
+  baseURL: https://partner-api.orangehealth.in
+  tags:
+  - Orange Health Partner API
+  properties:
+  - type: OpenAPI
+    url: openapi/orange-health-orange-health-partner-api-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
