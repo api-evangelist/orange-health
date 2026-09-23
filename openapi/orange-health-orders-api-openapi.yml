@@ -193,6 +193,14 @@ paths:
                 $ref: '#/components/schemas/StatusError'
 components:
   schemas:
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
     PatientDetail:
       type: object
       properties:
@@ -224,39 +232,18 @@ components:
             properties:
               package_id:
                 type: string
-    OrderRef:
+    RescheduleRequest:
       type: object
+      required:
+      - requested_slot_time
       properties:
-        id:
-          type: integer
-        partnerReferenceId:
+        requested_slot_time:
           type: string
-    StatusError:
-      type: object
-      description: Standard error envelope — a single human-readable status string.
-      properties:
-        status:
+          format: date-time
+        reschedule_reason:
           type: string
-      examples:
-      - status: Location provided is unserviceable
-    CreateOrderResponse:
-      type: object
-      properties:
-        request_id:
+        reschedule_explanation:
           type: string
-        oms_request_id:
-          type: string
-        token:
-          type: string
-          format: uuid
-        status:
-          type: string
-          examples:
-          - Scheduled
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderRef'
     CreateOrderRequest:
       type: object
       required:
@@ -291,6 +278,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PatientDetail'
+    CreateOrderResponse:
+      type: object
+      properties:
+        request_id:
+          type: string
+        oms_request_id:
+          type: string
+        token:
+          type: string
+          format: uuid
+        status:
+          type: string
+          examples:
+          - Scheduled
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRef'
     CampOrderRequest:
       type: object
       properties:
@@ -320,6 +325,20 @@ components:
             properties:
               package_id:
                 type: string
+    CancelRequest:
+      type: object
+      properties:
+        cancellationExplanation:
+          type: string
+        cancellationReason:
+          type: string
+    OrderRef:
+      type: object
+      properties:
+        id:
+          type: integer
+        partnerReferenceId:
+          type: string
     AddOnOrderRequest:
       type: object
       properties:
@@ -349,25 +368,6 @@ components:
             properties:
               package_id:
                 type: string
-    RescheduleRequest:
-      type: object
-      required:
-      - requested_slot_time
-      properties:
-        requested_slot_time:
-          type: string
-          format: date-time
-        reschedule_reason:
-          type: string
-        reschedule_explanation:
-          type: string
-    CancelRequest:
-      type: object
-      properties:
-        cancellationExplanation:
-          type: string
-        cancellationReason:
-          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
