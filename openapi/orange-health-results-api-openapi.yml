@@ -110,64 +110,6 @@ paths:
                 $ref: '#/components/schemas/InvalidDateRangeError'
 components:
   schemas:
-    OrderDetailsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-            status:
-              type: string
-              examples:
-              - completed
-            customer_details:
-              type: object
-              properties:
-                customer_name:
-                  type: string
-                customer_number:
-                  type: string
-            patient_information:
-              type: array
-              items:
-                type: object
-                properties:
-                  patientName:
-                    type: string
-                  reportURL:
-                    type: string
-                    format: uri
-                  tests:
-                    type: object
-            paymentMetadata:
-              type: array
-              items:
-                type: object
-                properties:
-                  paymentStatus:
-                    type: string
-    StatusError:
-      type: object
-      description: Standard error envelope — a single human-readable status string.
-      properties:
-        status:
-          type: string
-      examples:
-      - status: Location provided is unserviceable
-    InvalidDateRangeError:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-      examples:
-      - error: Invalid date range
-        message: Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference.
     TestResultsResponse:
       type: object
       properties:
@@ -208,6 +150,64 @@ components:
                         investigation_is_abnormal:
                           type: string
                           description: A when abnormal.
+    InvalidDateRangeError:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      examples:
+      - error: Invalid date range
+        message: Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference.
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
+    OrderDetailsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            status:
+              type: string
+              examples:
+              - completed
+            customer_details:
+              type: object
+              properties:
+                customer_name:
+                  type: string
+                customer_number:
+                  type: string
+            patient_information:
+              type: array
+              items:
+                type: object
+                properties:
+                  patientName:
+                    type: string
+                  reportURL:
+                    type: string
+                    format: uri
+                  tests:
+                    type: object
+            paymentMetadata:
+              type: array
+              items:
+                type: object
+                properties:
+                  paymentStatus:
+                    type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -193,14 +193,89 @@ paths:
                 $ref: '#/components/schemas/StatusError'
 components:
   schemas:
-    StatusError:
+    CreateOrderResponse:
       type: object
-      description: Standard error envelope — a single human-readable status string.
       properties:
+        request_id:
+          type: string
+        oms_request_id:
+          type: string
+        token:
+          type: string
+          format: uuid
         status:
           type: string
-      examples:
-      - status: Location provided is unserviceable
+          examples:
+          - Scheduled
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRef'
+    OrderRef:
+      type: object
+      properties:
+        id:
+          type: integer
+        partnerReferenceId:
+          type: string
+    CampOrderRequest:
+      type: object
+      properties:
+        customer_name:
+          type: string
+        customer_number:
+          type: string
+        partner_reference_id:
+          type: string
+        patient_name:
+          type: string
+        age:
+          type: string
+        gender:
+          type: string
+        tests:
+          type: array
+          items:
+            type: object
+            properties:
+              test_id:
+                type: string
+        packages:
+          type: array
+          items:
+            type: object
+            properties:
+              package_id:
+                type: string
+    AddOnOrderRequest:
+      type: object
+      properties:
+        partner_reference_id:
+          type: string
+        patient_name:
+          type: string
+        age:
+          type: string
+        gender:
+          type: string
+        patient_phone:
+          type: string
+        partner_notes:
+          type: string
+        tests:
+          type: array
+          items:
+            type: object
+            properties:
+              test_id:
+                type: string
+        packages:
+          type: array
+          items:
+            type: object
+            properties:
+              package_id:
+                type: string
     PatientDetail:
       type: object
       properties:
@@ -232,17 +307,12 @@ components:
             properties:
               package_id:
                 type: string
-    RescheduleRequest:
+    CancelRequest:
       type: object
-      required:
-      - requested_slot_time
       properties:
-        requested_slot_time:
+        cancellationExplanation:
           type: string
-          format: date-time
-        reschedule_reason:
-          type: string
-        reschedule_explanation:
+        cancellationReason:
           type: string
     CreateOrderRequest:
       type: object
@@ -278,96 +348,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PatientDetail'
-    CreateOrderResponse:
+    RescheduleRequest:
       type: object
+      required:
+      - requested_slot_time
       properties:
-        request_id:
+        requested_slot_time:
           type: string
-        oms_request_id:
+          format: date-time
+        reschedule_reason:
           type: string
-        token:
+        reschedule_explanation:
           type: string
-          format: uuid
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
         status:
           type: string
-          examples:
-          - Scheduled
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderRef'
-    CampOrderRequest:
-      type: object
-      properties:
-        customer_name:
-          type: string
-        customer_number:
-          type: string
-        partner_reference_id:
-          type: string
-        patient_name:
-          type: string
-        age:
-          type: string
-        gender:
-          type: string
-        tests:
-          type: array
-          items:
-            type: object
-            properties:
-              test_id:
-                type: string
-        packages:
-          type: array
-          items:
-            type: object
-            properties:
-              package_id:
-                type: string
-    CancelRequest:
-      type: object
-      properties:
-        cancellationExplanation:
-          type: string
-        cancellationReason:
-          type: string
-    OrderRef:
-      type: object
-      properties:
-        id:
-          type: integer
-        partnerReferenceId:
-          type: string
-    AddOnOrderRequest:
-      type: object
-      properties:
-        partner_reference_id:
-          type: string
-        patient_name:
-          type: string
-        age:
-          type: string
-        gender:
-          type: string
-        patient_phone:
-          type: string
-        partner_notes:
-          type: string
-        tests:
-          type: array
-          items:
-            type: object
-            properties:
-              test_id:
-                type: string
-        packages:
-          type: array
-          items:
-            type: object
-            properties:
-              package_id:
-                type: string
+      examples:
+      - status: Location provided is unserviceable
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
