@@ -110,6 +110,24 @@ paths:
                 $ref: '#/components/schemas/InvalidDateRangeError'
 components:
   schemas:
+    InvalidDateRangeError:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      examples:
+      - error: Invalid date range
+        message: Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference.
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
     TestResultsResponse:
       type: object
       properties:
@@ -150,24 +168,6 @@ components:
                         investigation_is_abnormal:
                           type: string
                           description: A when abnormal.
-    InvalidDateRangeError:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-      examples:
-      - error: Invalid date range
-        message: Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference.
-    StatusError:
-      type: object
-      description: Standard error envelope — a single human-readable status string.
-      properties:
-        status:
-          type: string
-      examples:
-      - status: Location provided is unserviceable
     OrderDetailsResponse:
       type: object
       properties:
