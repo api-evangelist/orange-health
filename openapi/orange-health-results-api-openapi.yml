@@ -110,64 +110,6 @@ paths:
                 $ref: '#/components/schemas/InvalidDateRangeError'
 components:
   schemas:
-    InvalidDateRangeError:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-      examples:
-      - error: Invalid date range
-        message: Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference.
-    StatusError:
-      type: object
-      description: Standard error envelope — a single human-readable status string.
-      properties:
-        status:
-          type: string
-      examples:
-      - status: Location provided is unserviceable
-    TestResultsResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            orders:
-              type: array
-              items:
-                type: object
-                properties:
-                  order_id:
-                    type: integer
-                  request_id:
-                    type: string
-                  patient_name:
-                    type: string
-                  patient_age:
-                    type: integer
-                  patient_gender:
-                    type: string
-                  order_created_at:
-                    type: string
-                    format: date-time
-                  tests:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        test_name:
-                          type: string
-                        investigation_name:
-                          type: string
-                        investigation_value:
-                          type: string
-                        investigation_value_unit:
-                          type: string
-                        investigation_is_abnormal:
-                          type: string
-                          description: A when abnormal.
     OrderDetailsResponse:
       type: object
       properties:
@@ -208,6 +150,64 @@ components:
                 properties:
                   paymentStatus:
                     type: string
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
+    InvalidDateRangeError:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      examples:
+      - error: Invalid date range
+        message: Please provide creation_start_date and creation_end_date with a 7 days or less than 7 days difference.
+    TestResultsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            orders:
+              type: array
+              items:
+                type: object
+                properties:
+                  order_id:
+                    type: integer
+                  request_id:
+                    type: string
+                  patient_name:
+                    type: string
+                  patient_age:
+                    type: integer
+                  patient_gender:
+                    type: string
+                  order_created_at:
+                    type: string
+                    format: date-time
+                  tests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        test_name:
+                          type: string
+                        investigation_name:
+                          type: string
+                        investigation_value:
+                          type: string
+                        investigation_value_unit:
+                          type: string
+                        investigation_is_abnormal:
+                          type: string
+                          description: A when abnormal.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

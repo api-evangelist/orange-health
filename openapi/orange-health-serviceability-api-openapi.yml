@@ -76,14 +76,6 @@ paths:
                 $ref: '#/components/schemas/StatusError'
 components:
   schemas:
-    StatusError:
-      type: object
-      description: Standard error envelope — a single human-readable status string.
-      properties:
-        status:
-          type: string
-      examples:
-      - status: Location provided is unserviceable
     ServiceabilityResponse:
       type: object
       properties:
@@ -105,6 +97,14 @@ components:
                 type: boolean
               is_evening_slot:
                 type: boolean
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

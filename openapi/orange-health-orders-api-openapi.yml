@@ -193,13 +193,55 @@ paths:
                 $ref: '#/components/schemas/StatusError'
 components:
   schemas:
-    OrderRef:
+    CreateOrderResponse:
       type: object
       properties:
-        id:
-          type: integer
-        partnerReferenceId:
+        request_id:
           type: string
+        oms_request_id:
+          type: string
+        token:
+          type: string
+          format: uuid
+        status:
+          type: string
+          examples:
+          - Scheduled
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRef'
+    PatientDetail:
+      type: object
+      properties:
+        partner_reference_id:
+          type: string
+        patient_name:
+          type: string
+        patient_phone:
+          type: string
+        age:
+          type: string
+        gender:
+          type: string
+          enum:
+          - Male
+          - Female
+          - Other
+        tests:
+          type: array
+          items:
+            type: object
+            properties:
+              test_id:
+                type: string
+        packages:
+          type: array
+          items:
+            type: object
+            properties:
+              package_id:
+                type: string
     CreateOrderRequest:
       type: object
       required:
@@ -234,17 +276,49 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PatientDetail'
-    RescheduleRequest:
+    AddOnOrderRequest:
       type: object
-      required:
-      - requested_slot_time
       properties:
-        requested_slot_time:
+        partner_reference_id:
           type: string
-          format: date-time
-        reschedule_reason:
+        patient_name:
           type: string
-        reschedule_explanation:
+        age:
+          type: string
+        gender:
+          type: string
+        patient_phone:
+          type: string
+        partner_notes:
+          type: string
+        tests:
+          type: array
+          items:
+            type: object
+            properties:
+              test_id:
+                type: string
+        packages:
+          type: array
+          items:
+            type: object
+            properties:
+              package_id:
+                type: string
+    StatusError:
+      type: object
+      description: Standard error envelope — a single human-readable status string.
+      properties:
+        status:
+          type: string
+      examples:
+      - status: Location provided is unserviceable
+    CancelRequest:
+      type: object
+      properties:
+        cancellationExplanation:
+          type: string
+        cancellationReason:
           type: string
     CampOrderRequest:
       type: object
@@ -275,99 +349,25 @@ components:
             properties:
               package_id:
                 type: string
-    CreateOrderResponse:
+    OrderRef:
       type: object
       properties:
-        request_id:
+        id:
+          type: integer
+        partnerReferenceId:
           type: string
-        oms_request_id:
-          type: string
-        token:
-          type: string
-          format: uuid
-        status:
-          type: string
-          examples:
-          - Scheduled
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderRef'
-    StatusError:
+    RescheduleRequest:
       type: object
-      description: Standard error envelope — a single human-readable status string.
+      required:
+      - requested_slot_time
       properties:
-        status:
+        requested_slot_time:
           type: string
-      examples:
-      - status: Location provided is unserviceable
-    AddOnOrderRequest:
-      type: object
-      properties:
-        partner_reference_id:
+          format: date-time
+        reschedule_reason:
           type: string
-        patient_name:
+        reschedule_explanation:
           type: string
-        age:
-          type: string
-        gender:
-          type: string
-        patient_phone:
-          type: string
-        partner_notes:
-          type: string
-        tests:
-          type: array
-          items:
-            type: object
-            properties:
-              test_id:
-                type: string
-        packages:
-          type: array
-          items:
-            type: object
-            properties:
-              package_id:
-                type: string
-    CancelRequest:
-      type: object
-      properties:
-        cancellationExplanation:
-          type: string
-        cancellationReason:
-          type: string
-    PatientDetail:
-      type: object
-      properties:
-        partner_reference_id:
-          type: string
-        patient_name:
-          type: string
-        patient_phone:
-          type: string
-        age:
-          type: string
-        gender:
-          type: string
-          enum:
-          - Male
-          - Female
-          - Other
-        tests:
-          type: array
-          items:
-            type: object
-            properties:
-              test_id:
-                type: string
-        packages:
-          type: array
-          items:
-            type: object
-            properties:
-              package_id:
-                type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
