@@ -64,6 +64,120 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Orange Health is a company surfaced as a portfolio company of accel, general-catalyst and added to the API Evangelist network as a stub for enrichment. Sector: mobile. This profile is a lead awaiting the enrichment pipeline.
+Orange Health Labs is an Indian at-home diagnostics laboratory serving Bengaluru, Delhi, Gurgaon, Noida and Hyderabad, offering 60-minute home sample collection and test results within about six hours. Its Partner API (documented on Apiary as the "Partner API Public Order Flow") lets healthcare partners, employers and apps check location serviceability and slots, create home-collection, lab-drop-off and health-camp orders, track order status, reschedule, cancel and add on tests, and pull structured investigation-level test results. Order lifecycle transitions (order.created through order.completed / order.cancelled) are delivered as HMAC-SHA256 signed webhooks. Authentication is an api_key request header.
 
-Backed by: accel, general-catalyst — https://www.orangehealth.in/
+**Areas:** Company · Mobile · Healthcare · Diagnostics · Lab Testing · Home Collection · Webhook · India
+
+## Orange Health on APIs.io
+
+Everything profiled for Orange Health is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/orange-health/](https://apis.io/providers/orange-health/)** — or go straight to one of the APIs or properties below.
+
+### APIs (4)
+
+- [Orange Health Orders API](https://apis.io/apis/orange-health/orange-health-orders-api/) — Create and manage diagnostic collection orders.
+- [Orange Health Results API](https://apis.io/apis/orange-health/orange-health-results-api/) — Retrieve order status and structured test results.
+- [Orange Health Serviceability API](https://apis.io/apis/orange-health/orange-health-serviceability-api/) — Check whether a location is serviceable and fetch available slots.
+- [Orange Health Orange Health Partner API](https://apis.io/apis/orange-health/orange-health-orange-health-partner-api-api/) — The Orange Health Partner API API from Orange Health — 0 operation(s) for orange health partner api.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Orange Health Webhooks](https://apis.io/asyncapis/orange-health/orange-health-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [orange-health-partner](https://apis.io/servers/orange-health/orange-health-partner/)
+
+#### Collections (3)
+
+Postman and Open Collection request collections.
+
+- [Orange Health Partner Orders API](https://apis.io/collections/orange-health/open-orange-health-orders-api/)
+- [Orange Health Partner Orders Results API](https://apis.io/collections/orange-health/open-orange-health-results-api/)
+- [Orange Health Partner Orders Serviceability API](https://apis.io/collections/orange-health/open-orange-health-serviceability-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Orange Health Partner Overlay](https://apis.io/overlays/orange-health/orange-health-partner-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Orange Health Authentication](https://apis.io/security/orange-health/orange-health-authentication/)
+- [Orange Health Domain Security](https://apis.io/security/orange-health/orange-health-domain-security/)
+- [Orange Health Vulnerability Disclosure](https://apis.io/security/orange-health/orange-health-vulnerability-disclosure/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.orangehealth.in/)
+- [Documentation](https://orangehealth.docs.apiary.io/)
+- [API reference](https://orangehealth.docs.apiary.io/)
+- [Support](https://www.orangehealth.in/corporate-partners)
+- [Blog](https://www.orangehealth.in/blog)
+- [Terms of service](https://www.orangehealth.in/terms)
+- [Privacy policy](https://www.orangehealth.in/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 21.5** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 21.0 |
+| Contract governance | 4.5 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 29.2 |
+| Access clarity | 0.0 |
+
+**Agent readiness 33.9** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 18.0** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/orange-health/](https://apis.io/providers/orange-health/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Orange Health: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/orange-health/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
